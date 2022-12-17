@@ -1,0 +1,8 @@
+.container
+  = form_for @player do |f|
+    = f.hidden_field :code, value: params[:code]
+    .field
+      = f.label :name
+      = f.text_field :name
+    = f.submit
+
