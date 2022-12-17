@@ -1,6 +1,7 @@
 class Answer < ApplicationRecord
   belongs_to :player
   belongs_to :response
+  has_one :question, through: :response
 
   class << self
     def good
