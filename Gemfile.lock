@@ -88,6 +88,13 @@ GEM
       irb (>= 1.5.0)
       reline (>= 0.3.1)
     erubi (1.11.0)
+    factory_bot (6.2.1)
+      activesupport (>= 5.0.0)
+    factory_bot_rails (6.2.0)
+      factory_bot (~> 6.2.0)
+      railties (>= 5.0.0)
+    faker (3.0.0)
+      i18n (>= 1.8.11, < 2)
     globalid (1.0.0)
       activesupport (>= 5.0)
     i18n (1.12.0)
@@ -119,6 +126,7 @@ GEM
       timeout
     net-smtp (0.3.3)
       net-protocol
+    niceql (0.6.1)
     nio4r (2.5.8)
     nokogiri (1.13.10-x86_64-linux)
       racc (~> 1.4)
@@ -148,6 +156,9 @@ GEM
       nokogiri (>= 1.6)
     rails-html-sanitizer (1.4.4)
       loofah (~> 2.19, >= 2.19.1)
+    rails_sql_prettifier (7.0.4)
+      activerecord (>= 7)
+      niceql (~> 0.6)
     railties (7.0.4)
       actionpack (= 7.0.4)
       activesupport (= 7.0.4)
@@ -214,9 +225,13 @@ DEPENDENCIES
   capybara
   cssbundling-rails
   debug
+  factory_bot
+  factory_bot_rails
+  faker
   jsbundling-rails
   puma (~> 5.0)
   rails (~> 7.0.4)
+  rails_sql_prettifier
   redis (~> 4.0)
   selenium-webdriver
   slim
