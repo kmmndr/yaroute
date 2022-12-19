@@ -1,7 +1,7 @@
 class Player < ApplicationRecord
   belongs_to :game
   belongs_to :user
-  has_many :answers
+  has_many :answers, dependent: :destroy
 
   before_validation :ensure_user_presence
 
