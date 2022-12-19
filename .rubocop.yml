@@ -1,0 +1,124 @@
+inherit_from: .rubocop_todo.yml
+
+require: rubocop-rails
+
+AllCops:
+  NewCops: enable
+
+Layout/LineLength:
+  Enabled: false
+
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+Lint/RaiseException:
+  Enabled: true
+
+Lint/StructNewOverride:
+  Enabled: true
+
+Lint/EmptyClass:
+  Enabled: false
+
+Metrics/AbcSize:
+  Max: 60
+  Exclude:
+    - test/**/*
+
+Metrics/BlockLength:
+  Exclude:
+    - config/**/*
+    - test/**/*
+    - lib/tasks/*
+
+Metrics/CyclomaticComplexity:
+  Max: 15
+
+Metrics/ClassLength:
+  Max: 200
+  Exclude:
+    - test/**/*
+
+Metrics/MethodLength:
+  Max: 30
+  Exclude:
+    - db/migrate/*
+    - test/**/*
+
+Metrics/PerceivedComplexity:
+  Max: 16
+
+Style/ClassVars:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/ExponentialNotation:
+  Enabled: false
+
+Style/FetchEnvVar:
+  Enabled: false
+
+Rails/FilePath:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/HashEachMethods:
+  Enabled: false
+
+Style/HashSyntax:
+  Enabled: false
+
+Style/HashTransformKeys:
+  Enabled: false
+
+Style/HashTransformValues:
+  Enabled: false
+
+Style/NumericLiterals:
+  Enabled: false
+
+Style/NumericPredicate:
+  Enabled: false
+
+Style/OpenStructUse:
+  Enabled: false
+
+Style/SymbolArray:
+  Enabled: false
+
+Style/SymbolProc:
+  Exclude:
+    - db/migrate/*
+
+Rails/NotNullColumn:
+  Exclude:
+    - db/migrate/*
+
+Rails/ApplicationRecord:
+  Exclude:
+    - db/migrate/*
+
+Rails/SkipsModelValidations:
+  Exclude:
+    - db/migrate/*
+
+Style/RedundantFetchBlock:
+  Exclude:
+    - config/*.rb
+
+Style/ClassAndModuleChildren:
+  Exclude:
+    - test/**/*.rb
+
+Metrics/ParameterLists:
+  Max: 8
+
+Style/CombinableLoops:
+  Enabled: false
+
+Rails/RenderInline:
+  Enabled: false
