@@ -1,6 +1,13 @@
 class Player < ApplicationRecord
   belongs_to :game
+  belongs_to :user
   has_many :answers
+
+  before_validation :ensure_user_presence
+
+  def ensure_user_presence
+    self.user ||= User.new(first_name: name)
+  end
 
   class << self
     def sort_by_highest_score
