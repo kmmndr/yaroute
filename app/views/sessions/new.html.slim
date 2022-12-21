@@ -1,0 +1,10 @@
+main.container
+  article.grid
+    div
+      hgroup
+        h1 = t('.title')
+
+      = form_with(url: login_path) do |f|
+        = f.text_field :login
+        = f.password_field :password
+        = f.submit t('login')
