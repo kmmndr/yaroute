@@ -6,8 +6,13 @@ class Game < ApplicationRecord
   has_many :questions, through: :quiz
 
   before_validation :set_default_user
+  before_validation :set_code
 
   def set_default_user
     self.user ||= quiz.user
+  end
+
+  def set_code
+    self.code ||= rand(100000..999999)
   end
 end
