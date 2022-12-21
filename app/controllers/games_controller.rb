@@ -36,6 +36,11 @@ class GamesController < DefaultController
   end
 
   def play
+    @player = current_user.player_in_game(game)
+    @answer = if (player = current_user.player_in_game(game))
+                game.current_question&.answers&.where(player: player)&.first_or_initialize
+              end
+
     if game.started? && game.waiting_delay > 0
       auto_refresh!(game.waiting_delay + 1)
     else

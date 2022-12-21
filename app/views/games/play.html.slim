@@ -9,7 +9,12 @@
     ul
       - @game.current_question.responses.each do |response|
         li
-          = link_to response.title, '', role: 'button'
+          - if @answer.present? && @answer.new_record?
+            = form_for [@player, @answer] do |f|
+              = f.hidden_field :response_id, value: response.id
+              = f.submit value: response.title
+          - else
+            = link_to response.title, '', role: 'button', class: (@answer.blank? || @answer.response == response) ? '' : 'secondary'
 
   - if @game.next_question?
     p = t('.time_elapsed')

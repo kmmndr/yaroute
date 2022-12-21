@@ -12,7 +12,9 @@ Rails.application.routes.draw do
     put 'reset'
     get 'play'
   end
-  resources :players
+  resources :players do
+    resources :answers, only: [:create]
+  end
   resources :quizzes do
     resources :games, only: [:create]
   end

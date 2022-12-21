@@ -3,4 +3,8 @@ class User < ApplicationRecord
   has_many :games, dependent: :destroy
   has_many :players, dependent: :destroy
   has_many :quizzes, dependent: :destroy
+
+  def player_in_game(game)
+    players.find_by(game: game)
+  end
 end
