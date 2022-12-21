@@ -5,6 +5,6 @@
       = f.text_field :code, value: params[:code]
     .field
       = f.label :name
-      = f.text_field :name
+      = f.text_field :name, value: current_user&.players&.last&.name
     = f.submit
 
