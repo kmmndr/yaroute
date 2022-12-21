@@ -6,7 +6,11 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
+admin = Account.where(login: 'admin').first_or_create
+
 if Rails.env.development?
+  admin.update(password: 'admin')
+
   quiz = Quiz.where(title: 'Test').first_or_create
 
   quiz.questions.create(title: 'question1').responses = [
