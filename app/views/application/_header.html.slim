@@ -1,0 +1,11 @@
+nav.container-fluid
+  ul
+    li
+      = link_to 'Yaroute', root_path
+  ul
+    li
+      - if authenticated?
+        = link_to t(:logout, name: current_user.first_name), logout_path
+      - else
+        = link_to t(:login), login_path
+hr

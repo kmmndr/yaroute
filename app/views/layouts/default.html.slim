@@ -1,0 +1,10 @@
+- content_for :header do
+  = render 'application/header'
+
+- content_for :content do
+  .container
+    p#notice
+      = notice
+    = yield
+
+= render template: "layouts/application"

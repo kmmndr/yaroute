@@ -1,6 +1,7 @@
 ---
 en:
   login: Login
+  logout: Logout %{name}
   sessions:
     new:
       title: Login

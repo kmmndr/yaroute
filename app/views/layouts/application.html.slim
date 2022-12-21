@@ -1,0 +1,17 @@
+doctype html
+
+html[env=Rails.env]
+  head
+    title
+      | Yaroute
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag "application", "data-turbo-track": "reload"
+    = javascript_include_tag "application", "data-turbo-track": "reload", defer: true
+
+  body
+    = yield(:header) if content_for?(:header)
+
+    = content_for?(:content) ? yield(:content) : yield
+
+    = render 'application/footer'
