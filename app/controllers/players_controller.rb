@@ -1,4 +1,6 @@
-class PlayersController < ApplicationController
+class PlayersController < DefaultController
+  skip_before_action :authenticate, only: [:new, :create]
+
   def index
     @players = game.players.all
   end
@@ -17,13 +19,14 @@ class PlayersController < ApplicationController
     redirect_to new_player_path and return if code.blank?
 
     game = Game.find_by(code: code)
+    redirect_to new_player_path(attrs) and return if game.blank?
+
     new_player = game.players.new(attrs)
 
     if new_player.save
-      session[:player_id] = new_player.id
+      authenticate!(new_player.user.id)
 
-      redirect_to game_players_path(game),
-                  notice: t('.notice_created')
+      redirect_to game_play_path(game)
     else
       render :new, status: :unprocessable_entity
     end
@@ -48,7 +51,7 @@ class PlayersController < ApplicationController
   private
 
   def game
-    player.game
+    @game ||= Game.find(params[:game_id])
   end
 
   def player_params
@@ -56,6 +59,6 @@ class PlayersController < ApplicationController
   end
 
   def player
-    @player ||= Player.find(session[:player_id])
+    @player ||= game.players.find_by(user_id: current_user.id) if game.present?
   end
 end
