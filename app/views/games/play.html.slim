@@ -1,0 +1,23 @@
+- if @game.waiting_players?
+  h2 = t('.waiting_players')
+- elsif @game.starting?
+  h2 = t('.ready')
+- else @game.started?
+  h2 = @game.current_question.title
+
+  nav
+    ul
+      - @game.current_question.responses.each do |response|
+        li
+          = link_to response.title, '', role: 'button'
+
+  - if @game.next_question?
+    p = t('.time_elapsed')
+
+/! footer
+nav
+  ul
+  ul
+    - if @game.user == current_user
+      li = link_to t('.reset'), game_reset_path(@game), data: { turbo: 'true', 'turbo-method': :put }
+      li = link_to t('.next_question'), game_next_question_path(@game), data: { turbo: 'true', 'turbo-method': :put }

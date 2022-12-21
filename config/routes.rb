@@ -8,8 +8,14 @@ Rails.application.routes.draw do
 
   resources :games do
     resources :players, only: [:index]
+    put 'next_question'
+    put 'reset'
+    get 'play'
   end
   resources :players
+  resources :quizzes do
+    resources :games, only: [:create]
+  end
 
   # Defines the root path route ("/")
   # root "articles#index"
