@@ -10,8 +10,9 @@ admin = Account.where(login: 'admin').first_or_create
 
 if Rails.env.development?
   admin.update(password: 'admin')
+  admin_user = admin.user
 
-  quiz = Quiz.where(title: 'Test').first_or_create
+  quiz = admin_user.quizzes.where(title: 'Test').first_or_create
 
   quiz.questions.create(title: 'question1').responses = [
     Response.create(title: 'ResponseA', value: true),
