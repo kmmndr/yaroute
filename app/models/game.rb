@@ -9,6 +9,23 @@ class Game < ApplicationRecord
   before_validation :set_default_user
   before_validation :set_code
 
+  def current_answers
+    @current_answers ||= current_question
+                         .answers
+                         .joins(player: :game).where(player: { game_id: id })
+  end
+
+  def response_answers(response)
+    all_answers = current_answers
+    all_answers.where(response: response) if response.present?
+  end
+
+  def response_percentage(response)
+    return nil if current_answers.count == 0
+
+    response_answers(response).count * 100 / current_answers.count
+  end
+
   def set_default_user
     self.user ||= quiz.user
   end

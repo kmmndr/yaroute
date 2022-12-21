@@ -5,19 +5,31 @@
 - else @game.started?
   h2 = @game.current_question.title
 
-  nav
-    ul
+  - if @game.user == current_user
+    - if @game.next_question?
       - @game.current_question.responses.each do |response|
-        li
-          - if @answer.present? && @answer.new_record?
-            = form_for [@player, @answer] do |f|
+        - answers_count = @game.next_question? ? @game.response_answers(response).count : nil
+        div
+          label
+            span = "#{response.title} (#{answers_count})"
+          progress value=@game.response_percentage(response) max=100
+    - else
+      nav
+        ul
+          - @game.current_question.responses.each do |response|
+            li
+              = link_to response.title, '', role: 'button'
+  - else
+    nav
+      ul
+        - @game.current_question.responses.each do |response|
+          li
+            = form_for @answer&.new_record? ? [@answer.player, @answer] : '#' do |f|
               = f.hidden_field :response_id, value: response.id
-              = f.submit value: response.title
-          - else
-            = link_to response.title, '', role: 'button', class: (@answer.blank? || @answer.response == response) ? '' : 'secondary'
+              = f.submit value: response.title, disabled: @answer.persisted?, class: (@answer.new_record? || @answer.response == response) ? '' : 'secondary'
 
-  - if @game.next_question?
-    p = t('.time_elapsed')
+    - if @game.next_question?
+      p = t('.time_elapsed')
 
 /! footer
 nav
