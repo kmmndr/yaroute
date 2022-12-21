@@ -4,6 +4,7 @@
   "dependencies": {
     "@hotwired/stimulus": "^3.2.1",
     "@hotwired/turbo-rails": "^7.2.4",
+    "@picocss/pico": "^1.5.6",
     "esbuild": "^0.16.10",
     "sass": "^1.57.1"
   },
