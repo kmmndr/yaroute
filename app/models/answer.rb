@@ -3,6 +3,8 @@ class Answer < ApplicationRecord
   belongs_to :response
   has_one :question, through: :response
 
+  validates :response_id, uniqueness: { scope: :player_id }
+
   class << self
     def good
       joins(:response).where(response: { value: true })
