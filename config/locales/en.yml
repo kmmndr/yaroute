@@ -1,5 +1,51 @@
 ---
 en:
+  activerecord:
+    attributes:
+      account:
+        login: Login
+        password: Password
+      game:
+        code: Code
+      player:
+        name: Name
+      question:
+        duration: Duration
+        points: Points
+        title: Question
+      quiz:
+        title: Quiz title
+      response:
+        title: Response
+        value: Value
+      user:
+        first_name: First name
+        last_name: Last name
+    models:
+      account:
+        one: account
+        other: accounts
+      answer:
+        one: answer
+        other: answers
+      game:
+        one: Game
+        other: Games
+      player:
+        one: Player
+        other: Players
+      question:
+        one: Question
+        other: Questions
+      quiz:
+        one: Quiz
+        other: Quizzes
+      response:
+        one: Response
+        other: Responses
+      user:
+        one: User
+        other: Users
   delete: Delete
   edit: Edit
   games:
@@ -25,6 +71,15 @@ en:
       notice_deleted: Notice deleted
     update:
       notice_updated: Notice updated
+  questions:
+    create:
+      notice_created: Notice created
+    destroy:
+      notice_deleted: Notice deleted
+    form:
+      value: Good answer ?
+    update:
+      notice_updated: Notice updated
   quizzes:
     create:
       notice_created: Notice created
@@ -38,6 +93,7 @@ en:
       quiz_game: Game created %{at} by %{user} (%{players_count} players)
     show:
       back_to_quizzes: Back to quizzes
+      quizzes: Quizzes
     update:
       notice_updated: Notice updated
   sessions:

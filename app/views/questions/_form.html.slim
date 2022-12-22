@@ -1,0 +1,23 @@
+.container
+  = form_for @question.persisted? ? @question : [@question.quiz, @question] do |f|
+    .field
+      = f.label :title
+      = f.text_field :title
+      = f.fields_for :responses do |ff|
+        .grid
+          .field
+             = ff.label :title
+             = ff.text_field :title
+          .field
+             = ff.label :value
+             = ff.check_box :value, role: 'switch' do
+             = t('.value')
+             br
+             - if ff.object.id.present?
+               = link_to t('delete'), response_path(ff.object), data: { turbo: 'true', 'turbo-method': :delete }
+    = f.submit
+
+nav
+  ul
+  ul
+    li = link_to t('.back_to_quiz'), quiz_path(@question.quiz), role: 'button', class: 'secondary'

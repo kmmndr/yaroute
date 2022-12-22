@@ -7,7 +7,7 @@ article
       ul
         - if quiz.questions.count > 0
           - quiz.questions.each do |question|
-            li = question.title
+            li = link_to question.title, edit_question_path(question)
         li = link_to t('.new_question'), new_quiz_question_path(quiz)
 
     - if quiz.games.count > 0

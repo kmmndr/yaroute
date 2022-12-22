@@ -15,10 +15,13 @@ Rails.application.routes.draw do
   resources :players do
     resources :answers, only: [:create]
   end
+
+  resources :questions, only: [:edit, :update, :destroy]
   resources :quizzes do
-    resources :questions
+    resources :questions, only: [:new, :create]
     resources :games, only: [:create]
   end
+  resources :responses, only: [:destroy]
 
   root to: redirect('/quizzes')
 end
