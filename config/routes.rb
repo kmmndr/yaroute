@@ -16,9 +16,9 @@ Rails.application.routes.draw do
     resources :answers, only: [:create]
   end
   resources :quizzes do
+    resources :questions
     resources :games, only: [:create]
   end
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+  root to: redirect('/quizzes')
 end

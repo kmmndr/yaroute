@@ -1,0 +1,25 @@
+article
+  header = link_to quiz.title, quiz_path(quiz)
+
+  dl
+    dt = t('.questions')
+    dd
+      ul
+        - if quiz.questions.count > 0
+          - quiz.questions.each do |question|
+            li = question.title
+        li = link_to t('.new_question'), new_quiz_question_path(quiz)
+
+    - if quiz.games.count > 0
+      dt = t('.games')
+      dd
+        ul
+          - quiz.games.each do |game|
+            li = link_to t('.quiz_game', at: l(game.created_at.to_date, format: :long), user: game.user.first_name, players_count: game.players.count), game_path(game)
+
+  footer
+    nav
+      ul
+        li = link_to t('.new_game'), quiz_games_path(quiz), data: { turbo: 'true', 'turbo-method': :post }, role: 'button'
+        li = link_to t('edit'), edit_quiz_path(quiz), role: 'button', class: 'secondary'
+        li = link_to t('delete'), quiz_path(quiz), data: { turbo: 'true', 'turbo-method': :delete }, role: 'button', class: 'secondary'

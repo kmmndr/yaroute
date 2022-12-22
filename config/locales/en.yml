@@ -1,7 +1,45 @@
 ---
 en:
+  delete: Delete
+  edit: Edit
+  games:
+    create:
+      notice_created: Notice created
+    play:
+      next_question: Next question
+      ready: Ready
+      reset: Reset
+      time_elapsed: Time elapsed
+      waiting_players: Waiting players
+    show:
+      details: Details
+      play: Play
+      players: Players
+      reset: Reset
+      start: Start
   login: Login
   logout: Logout %{name}
+  new: New
+  players:
+    destroy:
+      notice_deleted: Notice deleted
+    update:
+      notice_updated: Notice updated
+  quizzes:
+    create:
+      notice_created: Notice created
+    destroy:
+      notice_deleted: Notice deleted
+    quiz:
+      games: Games
+      new_game: New game
+      new_question: new question
+      questions: Questions
+      quiz_game: Game created %{at} by %{user} (%{players_count} players)
+    show:
+      back_to_quizzes: Back to quizzes
+    update:
+      notice_updated: Notice updated
   sessions:
     new:
       title: Login

@@ -1,3 +1,6 @@
-ul
-  - @quizzes.each do |quiz|
-    li = link_to quiz.title, quiz_games_path(quiz), data: { turbo: 'true', 'turbo-method': :post }
+- @quizzes.each do |quiz|
+  = render quiz
+
+nav
+  ul
+    li = link_to t('new'), new_quiz_path, role: 'button'
