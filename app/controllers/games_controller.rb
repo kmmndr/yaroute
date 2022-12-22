@@ -1,5 +1,7 @@
 class GamesController < DefaultController
   def show
+    redirect_to new_player_path and return if restrict_access?
+
     @game = game
   end
 
@@ -36,6 +38,8 @@ class GamesController < DefaultController
   end
 
   def play
+    redirect_to new_player_path and return if restrict_access?
+
     @player = current_user.player_in_game(game)
     @answer = if (player = current_user.player_in_game(game))
                 game.current_question&.answers&.where(player: player)&.first_or_initialize
@@ -44,11 +48,18 @@ class GamesController < DefaultController
     if game.started? && game.waiting_delay > 0
       auto_refresh!(game.waiting_delay + 1)
     else
-      auto_refresh!(2)
+      auto_refresh!(4)
     end
   end
 
   private
+
+  def restrict_access?
+    return false if current_user == game.user
+    return false if (game.players.ids & current_user.players.ids).any?
+
+    true
+  end
 
   def game
     @game ||= Game.find(params[:game_id] || params[:id])
