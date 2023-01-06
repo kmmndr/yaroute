@@ -78,6 +78,7 @@ en:
     destroy:
       notice_deleted: Notice deleted
     form:
+      back_to_quiz: Back to quiz
       value: Good answer ?
     update:
       notice_updated: Notice updated
@@ -97,6 +98,9 @@ en:
       quizzes: Quizzes
     update:
       notice_updated: Notice updated
+  responses:
+    destroy:
+      notice_deleted: Notice deleted
   sessions:
     new:
       title: Login
