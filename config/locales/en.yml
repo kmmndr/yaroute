@@ -59,6 +59,7 @@ en:
       waiting_players: Waiting players
     show:
       details: Details
+      join_code: Share this code to join the game
       play: Play
       players: Players
       reset: Reset

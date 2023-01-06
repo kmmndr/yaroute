@@ -1,24 +1,27 @@
-h2 = @game.quiz.title
+article
+  header = @game.quiz.title
 
-h3 = t('.details')
+  h3 = t('.players')
 
-mark
-  = link_to @game.code, new_player_path(code: @game.code)
+  nav
+    ul
+      - @game.players.each do |player|
+        li
+          a role="button" => player.name
 
-h3 = t('.players')
+  p
+    span => t('.join_code')
+    mark
+      = link_to @game.code, new_player_path(code: @game.code)
 
-ul
-  - @game.players.each do |player|
-    li
-      mark = player.name
-
-nav
-  ul
-    - if @game.user == current_user
-      - if @game.started?
-        li = link_to t('.reset'), game_reset_path(@game), data: { turbo: 'true', 'turbo-method': :put }
-        li = link_to t('.play'), game_play_path(@game)
-      - else
-        li = link_to t('.start'), game_next_question_path(@game), data: { turbo: 'true', 'turbo-method': :put }
-    - else
-        li = link_to t('.play'), game_play_path(@game)
+  footer
+    nav
+      ul
+        - if @game.user == current_user
+          - if @game.started?
+            li = link_to t('.reset'), game_reset_path(@game), data: { turbo: 'true', 'turbo-method': :put }, role: 'button', class: 'secondary'
+            li = link_to t('.play'), game_play_path(@game), role: 'button'
+          - else
+            li = link_to t('.start'), game_next_question_path(@game), data: { turbo: 'true', 'turbo-method': :put }, role: 'button'
+        - else
+            li = link_to t('.play'), game_play_path(@game), role: 'button'
