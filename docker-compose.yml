@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  rails:
+    image: ${APP_IMAGE:-localhost/yaroute:latest}
+    # build: .
+    restart: always
+    environment:
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+      RAILS_ENV: ${PROJECT_ENVIRONMENT:-production}
+      NODE_ENV: ${PROJECT_ENVIRONMENT:-production}
+      RAILS_SERVE_STATIC_FILES: ${RAILS_SERVE_STATIC_FILES:-1}
+      RAILS_LOG_TO_STDOUT: ${RAILS_LOG_TO_STDOUT:-}
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE:-weak_secret_key}
+      #
+      PS1: "[$$RAILS_ENV] \\w \\$$ "

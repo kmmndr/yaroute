@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  rails:
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.${APP_NAME:-app}-${STAGE:-staging}.rule=Host(`${APP_FQDN:-localhost}`)'
+      - 'traefik.http.routers.${APP_NAME:-app}-${STAGE:-staging}.entrypoints=web'
+      - 'traefik.http.routers.${APP_NAME:-app}-${STAGE:-staging}.middlewares=redirect-to-https'
+      - 'traefik.http.routers.${APP_NAME:-app}-${STAGE:-staging}-tls.rule=Host(`${APP_FQDN:-localhost}`)'
+      - 'traefik.http.routers.${APP_NAME:-app}-${STAGE:-staging}-tls.entrypoints=websecure'
+      - 'traefik.http.routers.${APP_NAME:-app}-${STAGE:-staging}-tls.tls.certresolver=default-tls'
+      - 'traefik.http.services.${APP_NAME:-app}-${STAGE:-staging}.loadbalancer.server.port=8080'
+    networks:
+      - traefik_default
+      - default
+
+networks:
+  traefik_default:
+    external: true

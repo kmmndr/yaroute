@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  rails:
+    build:
+      context: .
+      target: 'local'
+    environment:
+      RAILS_ENV:
+      RACK_ENV:
+      BINDING: 0.0.0.0
+    volumes:
+      - home:/home/app
+      - .:/srv/app
+    command: sh -c 'while true; do sleep 60; done'
+    ports:
+      - "${LOCAL_PORT_RAILS:-3000}:3000"
+      - "${LOCAL_PORT_CADDY:-8080}:8080"
+      - "${LOCAL_PORT_PUMA:-9292}:9292"
+
+volumes:
+  home:
