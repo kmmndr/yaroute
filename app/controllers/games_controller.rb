@@ -56,7 +56,7 @@ class GamesController < DefaultController
 
   def restrict_access?
     return false if current_user == game.user
-    return false if (game.players.ids & current_user.players.ids).any?
+    return false if game.players.ids.intersect?(current_user.players.ids)
 
     true
   end

@@ -103,8 +103,7 @@ Rails/ApplicationRecord:
     - db/migrate/*
 
 Rails/SkipsModelValidations:
-  Exclude:
-    - db/migrate/*
+  Enabled: false
 
 Style/RedundantFetchBlock:
   Exclude:
