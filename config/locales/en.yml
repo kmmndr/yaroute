@@ -52,6 +52,7 @@ en:
     create:
       notice_created: Notice created
     play:
+      finished: Finished
       next_question: Next question
       ready: Ready
       reset: Reset

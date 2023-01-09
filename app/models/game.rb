@@ -42,6 +42,10 @@ class Game < ApplicationRecord
     where.not(started_at: nil)
   end
 
+  def self.finished
+    where.not(finished_at: nil)
+  end
+
   def waiting_players?
     started_at.nil?
   end
@@ -54,29 +58,63 @@ class Game < ApplicationRecord
     started? && current_question.nil?
   end
 
+  def finished?
+    finished_at.present?
+  end
+
   def start!(at: Time.zone.now)
     touch(:started_at, time: at)
   end
 
-  def next_question!
+  def finish!(at: Time.zone.now)
+    touch(:finished_at, time: at)
+  end
+
+  def next_question
+    return @next_question if @next_question.present?
+
     ids = questions.ids
     current_id = current_question&.id
 
-    if current_id.nil?
-      self.current_question_id = ids.first
-    else
-      next_idx = ids.index(current_id) + 1
-      next_id = ids[next_idx]
+    next_id = if current_id.nil?
+                ids.first
+              else
+                current_idx = ids.index(current_id)
 
-      return if next_id.nil?
+                next_idx = current_idx + 1
+                ids[next_idx]
+              end
 
-      self.current_question_id = next_id
-    end
+    return if next_id.nil?
 
+    @next_question = questions.find_by(id: next_id)
+  end
+
+  def next_question!
+    return if next_question.nil?
+
+    self.current_question_id = next_question.id
     self.current_question_at = Time.zone.now
     save!
 
     self
+  end
+
+  def next_question?
+    started? && !last_question? # && delay_elapsed?
+  end
+
+  def last_question?
+    current_question.present? && next_question.nil?
+  end
+
+  def next_step!
+    if next_question?
+      next_question!
+    elsif last_question?
+      update(current_question_id: nil)
+      finish!
+    end
   end
 
   def current_question_expiration
@@ -95,16 +133,17 @@ class Game < ApplicationRecord
     delay_until(end_date)
   end
 
-  def next_question?
-    started? && waiting_delay == 0
+  def delay_elapsed?
+    waiting_delay == 0
   end
 
   def reset!
     Answer.where(id: answers).destroy_all
 
     update!(
+      current_question_id: nil,
       started_at: nil,
-      current_question_id: nil
+      finished_at: nil
     )
 
     self
@@ -113,7 +152,7 @@ class Game < ApplicationRecord
   private
 
   def delay_until(end_date, ref: Time.zone.now)
-    delay = (end_date - Time.zone.now)
+    delay = (end_date - ref)
     [0, delay].max
   end
 end

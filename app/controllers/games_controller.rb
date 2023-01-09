@@ -25,7 +25,7 @@ class GamesController < DefaultController
   def next_question
     if game.user == current_user
       if game.started?
-        game.next_question!
+        game.next_step!
       else
         game.reset!
         game.start!(at: 5.seconds.from_now)

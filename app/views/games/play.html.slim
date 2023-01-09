@@ -3,15 +3,17 @@ article
 
   - if @game.waiting_players?
     h2 = t('.waiting_players')
+  - elsif @game.finished?
+    h2 = t('.finished')
   - elsif @game.starting?
     h2 = t('.ready')
   - else @game.started?
     h2 = @game.current_question.title
 
     - if @game.user == current_user
-      - if @game.next_question?
+      - if @game.delay_elapsed?
         - @game.current_question.responses.each do |response|
-          - answers_count = @game.next_question? ? @game.response_answers(response).count : nil
+          - answers_count = @game.response_answers(response).count
           div
             label
               span = "#{response.title} (#{answers_count})"
@@ -31,7 +33,7 @@ article
                 = f.hidden_field :response_id, value: response.id
                 = f.submit value: response.title, disabled: @answer.persisted?, class: (@answer.new_record? || @answer.response == response) ? '' : 'secondary'
 
-      - if @game.next_question?
+      - if @game.next_question? && @game.delay_elapsed?
         p = t('.time_elapsed')
 
   footer
@@ -39,4 +41,5 @@ article
       ul
         - if @game.user == current_user
           li = link_to t('.reset'), game_reset_path(@game), data: { turbo: 'true', 'turbo-method': :put }, role: 'button', class: 'secondary'
-          li = link_to t('.next_question'), game_next_question_path(@game), data: { turbo: 'true', 'turbo-method': :put }, role: 'button'
+          - unless @game.finished?
+            li = link_to t('.next_question'), game_next_question_path(@game), data: { turbo: 'true', 'turbo-method': :put }, role: 'button'
