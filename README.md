@@ -1,24 +1,45 @@
-# README
+# Yaroute
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Yaroute is a quiz game. Create best quiz and invite friends to play.
 
-Things you may want to cover:
+## Usage
 
-* Ruby version
+The easiest way to start application is to use docker image (not yet published).
 
-* System dependencies
+## Contributing
 
-* Configuration
+You want to contribute ? Great idea !
 
-* Database creation
+Install the following tools :
+- docker
+- docker-compose
+- make (GNU Make)
+- pv
 
-* Database initialization
+Then create default environment file required to start application locally.
 
-* How to run the test suite
+```
+$ make generate-env
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+A file called `default.env` has been created, containing environment variables.
+Now start local environment and enter development console.
 
-* Deployment instructions
+```
+$ make local-start
+$ make local-console
+```
 
-* ...
+From development console, you may start rails application
+
+```
+$ bundle install
+$ bundle exec rake db:migrate db:seed
+$ bundle exec rails s
+```
+
+And browse to http://127.0.0.1:3000, default password is `admin`/`admin`
+
+If you want to test multiple players on the same browser, use something like
+Firefox's
+[temporary-containers](https://addons.mozilla.org/en-US/firefox/addon/temporary-containers/).
