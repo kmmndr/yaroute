@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   get 'logout' => 'sessions#destroy'
   delete 'logout' => 'sessions#destroy'
 
+  resources :accounts
+
   resources :games do
     resources :players, only: [:index]
     put 'next_question'

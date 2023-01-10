@@ -5,7 +5,10 @@ nav.container-fluid
   ul
     li
       - if authenticated?
-        = link_to t(:logout, name: current_user.first_name), logout_path
+        - if current_user.account.present?
+          = link_to t(:logout, name: current_user.first_name), logout_path
+        - else
+          = link_to t(:signup), new_account_path, role: 'button'
       - else
         = link_to t(:login), login_path
 hr

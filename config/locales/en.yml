@@ -1,5 +1,12 @@
 ---
 en:
+  accounts:
+    create:
+      notice_created: Notice created
+    destroy:
+      notice_deleted: Notice deleted
+    update:
+      notice_updated: Notice updated
   activerecord:
     attributes:
       account:
@@ -105,3 +112,4 @@ en:
   sessions:
     new:
       title: Login
+  signup: Signup
