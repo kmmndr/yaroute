@@ -3,11 +3,8 @@ article
 
   h3 = t('.players')
 
-  nav
-    ul
-      - @game.players.each do |player|
-        li
-          a role="button" => player.name
+  - @game.players.each do |player|
+    a role="button" => player.name
 
   p
     span => t('.join_code')
