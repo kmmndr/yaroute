@@ -47,7 +47,7 @@ class GamesController < DefaultController
 
     if game.started? && game.waiting_delay > 0
       auto_refresh!(game.waiting_delay + 1)
-    else
+    elsif !game.finished?
       auto_refresh!(4)
     end
   end
