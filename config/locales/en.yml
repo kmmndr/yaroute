@@ -61,6 +61,7 @@ en:
     play:
       finished: Finished
       next_question: Next question
+      score: "%{score} points"
       ready: Ready
       reset: Reset
       time_elapsed: Time elapsed
