@@ -26,7 +26,7 @@ article
           div
             label
               span = "#{response.title} (#{answers_count})"
-            progress value=@game.response_percentage(response) max=100
+            progress value=@game.response_percentage(response) max=100 class="#{response.value == true ? '' : 'secondary'}"
       - else
         nav
           ul
