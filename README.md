@@ -35,7 +35,7 @@ From development console, you may start rails application
 ```
 $ bundle install
 $ bundle exec rake db:migrate db:seed
-$ bundle exec rails s
+$ bin/dev
 ```
 
 And browse to http://127.0.0.1:3000, default password is `admin`/`admin`
