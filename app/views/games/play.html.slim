@@ -39,7 +39,5 @@ article
   footer
     nav
       ul
-        - if @game.user == current_user
-          li = link_to t('.reset'), game_reset_path(@game), data: { turbo: 'true', 'turbo-method': :put }, role: 'button', class: 'secondary'
-          - unless @game.finished?
-            li = link_to t('.next_question'), game_next_question_path(@game), data: { turbo: 'true', 'turbo-method': :put }, role: 'button'
+        - if @game.user == current_user && !@game.finished?
+          li = link_to t('.next_question'), game_next_question_path(@game), data: { turbo: 'true', 'turbo-method': :put }, role: 'button'
