@@ -33,6 +33,11 @@ $ make local-console
 From development console, you may start rails application
 
 ```
+# For arm (mac m1) users
+$ bundle config set force_ruby_platform true
+```
+
+```
 $ bundle install
 $ bundle exec rake db:migrate db:seed
 $ bin/dev
