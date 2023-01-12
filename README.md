@@ -39,6 +39,7 @@ $ bundle config set force_ruby_platform true
 
 ```
 $ bundle install
+$ yarn install
 $ bundle exec rake db:migrate db:seed
 $ bin/dev
 ```
