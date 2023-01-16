@@ -3,17 +3,6 @@ article
 
   - if @game.waiting_players?
     h2 = t('.waiting_players')
-  - elsif @game.finished?
-    h2 = t('.finished')
-
-    ol
-      - @game.players.sort_by_highest_score.each do |player|
-        li
-          => player.name
-          | -
-          strong =< t('.score', score: player.score)
-
-
   - elsif @game.starting?
     h2 = t('.ready')
   - else @game.started?

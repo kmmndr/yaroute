@@ -59,19 +59,19 @@ en:
     create:
       notice_created: Notice created
     play:
-      finished: Finished
       next_question: Next question
-      score: "%{score} points"
       ready: Ready
       reset: Reset
       time_elapsed: Time elapsed
       waiting_players: Waiting players
     show:
       details: Details
+      finished: Finished
       join_code: Share this code to join the game
       play: Play
       players: Players
       reset: Reset
+      score: "%{score} points"
       start: Start
   login: Login
   logout: Logout %{name}

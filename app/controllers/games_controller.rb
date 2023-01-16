@@ -49,6 +49,8 @@ class GamesController < DefaultController
       auto_refresh!(game.waiting_delay + 1)
     elsif !game.finished?
       auto_refresh!(4)
+    else
+      redirect_to game_path(game)
     end
   end
 
