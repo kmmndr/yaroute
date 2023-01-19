@@ -30,7 +30,7 @@ class QuizzesController < DefaultController
     @quiz = quiz
 
     if @quiz.update(quiz_params)
-      redirect_to quizzes_path,
+      redirect_to quiz_path(@quiz),
                   notice: t('.notice_updated')
     else
       render :edit, status: :unprocessable_entity
