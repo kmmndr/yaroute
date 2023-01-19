@@ -39,6 +39,9 @@ gem 'redis', '~> 4.0'
 gem 'scrypt', '~> 3.0.7'
 gem 'strong_password', '~> 0.0.10'
 
+# Authorization
+gem 'six', '~> 0.2.2'
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
