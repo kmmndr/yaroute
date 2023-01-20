@@ -19,4 +19,8 @@ module Yaroute
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
   end
+
+  module Exceptions
+    class ForbiddenError < StandardError; end
+  end
 end

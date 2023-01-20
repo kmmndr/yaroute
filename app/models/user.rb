@@ -7,4 +7,8 @@ class User < ApplicationRecord
   def player_in_game(game)
     players.find_by(game: game)
   end
+
+  def can?(action, subject = nil)
+    AbilitiesHandler.new.abilities.allowed?(self, action, subject)
+  end
 end
