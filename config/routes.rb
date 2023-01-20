@@ -9,7 +9,6 @@ Rails.application.routes.draw do
   resources :accounts
 
   resources :games do
-    resources :players, only: [:index]
     put 'next_question'
     put 'reset'
     get 'play'
