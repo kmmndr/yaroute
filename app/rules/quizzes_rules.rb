@@ -12,6 +12,8 @@ class QuizzesRules
       rules << :read_quiz
       rules << :update_quiz
       rules << :delete_quiz
+
+      rules << :create_quizzes_game
     end
 
     rules

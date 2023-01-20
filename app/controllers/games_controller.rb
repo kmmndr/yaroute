@@ -1,11 +1,13 @@
 class GamesController < DefaultController
   def show
-    redirect_to new_player_path and return if restrict_access?
-
     @game = game
+
+    redirect_to new_player_path unless current_user.can?(:read_game, @game)
   end
 
   def create
+    forbid! unless current_user.can?(:create_quizzes_game, quiz)
+
     new_game = quiz.games.new(user: current_user)
 
     if new_game.save
@@ -17,12 +19,16 @@ class GamesController < DefaultController
   end
 
   def reset
+    forbid! unless current_user.can?(:update_game, game)
+
     game.reset! if game.user == current_user
 
     redirect_to game_path(game)
   end
 
   def next_question
+    forbid! unless current_user.can?(:update_game, game)
+
     if game.user == current_user
       if game.started?
         game.next_step! if game.waiting_delay == 0
@@ -38,7 +44,7 @@ class GamesController < DefaultController
   end
 
   def play
-    redirect_to new_player_path and return if restrict_access?
+    redirect_to new_player_path and return unless current_user.can?(:read_game, game)
 
     @player = current_user.player_in_game(game)
     @answer = if (player = current_user.player_in_game(game))
@@ -55,13 +61,6 @@ class GamesController < DefaultController
   end
 
   private
-
-  def restrict_access?
-    return false if current_user == game.user
-    return false if game.players.ids.intersect?(current_user.players.ids)
-
-    true
-  end
 
   def game
     @game ||= Game.find(params[:game_id] || params[:id])
