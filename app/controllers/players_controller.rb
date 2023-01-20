@@ -1,12 +1,6 @@
 class PlayersController < DefaultController
   skip_before_action :authenticate, only: [:new, :create]
 
-  def index
-    @players = game.players.all
-  end
-
-  def show; end
-
   def new
     @player = Player.new
   end
