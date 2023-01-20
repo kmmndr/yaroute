@@ -2,6 +2,8 @@ class AccountsController < DefaultController
   skip_before_action :authenticate, only: [:new, :create]
 
   def show
+    forbid! unless current_user.can?(:read_account, account)
+
     @account = account
   end
 
@@ -12,6 +14,8 @@ class AccountsController < DefaultController
   end
 
   def edit
+    forbid! unless current_user.can?(:update_account, account)
+
     @account = account
   end
 
@@ -39,6 +43,8 @@ class AccountsController < DefaultController
   end
 
   def update
+    forbid! unless current_user.can?(:update_account, account)
+
     @account = account
 
     if @account.update(account_params)
@@ -50,6 +56,8 @@ class AccountsController < DefaultController
   end
 
   def destroy
+    forbid! unless current_user.can?(:delete_account, account)
+
     account.destroy
 
     redirect_to root_path,
