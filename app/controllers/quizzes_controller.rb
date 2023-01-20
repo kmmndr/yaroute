@@ -1,21 +1,31 @@
 class QuizzesController < DefaultController
   def index
-    @quizzes = Quiz.all
+    forbid! unless current_user.can?(:read_quizzes)
+
+    @quizzes = current_user.quizzes
   end
 
   def show
     @quiz = quiz
+
+    forbid! unless current_user.can?(:read_quiz, @quiz)
   end
 
   def new
+    forbid! unless current_user.can?(:create_quiz)
+
     @quiz = Quiz.new
   end
 
   def edit
     @quiz = quiz
+
+    forbid! unless current_user.can?(:update_quiz, @quiz)
   end
 
   def create
+    forbid! unless current_user.can?(:create_quiz)
+
     @quiz = current_user.quizzes.new(quiz_params)
 
     if @quiz.save
@@ -29,6 +39,8 @@ class QuizzesController < DefaultController
   def update
     @quiz = quiz
 
+    forbid! unless current_user.can?(:update_quiz, @quiz)
+
     if @quiz.update(quiz_params)
       redirect_to quiz_path(@quiz),
                   notice: t('.notice_updated')
@@ -38,6 +50,8 @@ class QuizzesController < DefaultController
   end
 
   def destroy
+    forbid! unless current_user.can?(:delete_quiz, quiz)
+
     quiz.destroy
 
     redirect_to quizzes_path,
