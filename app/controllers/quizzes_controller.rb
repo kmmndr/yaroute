@@ -2,7 +2,7 @@ class QuizzesController < DefaultController
   def index
     forbid! unless current_user.can?(:read_quizzes)
 
-    @quizzes = current_user.quizzes
+    @pagy, @quizzes = pagy(current_user.quizzes)
   end
 
   def show
