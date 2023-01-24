@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  include Pagy::Backend
+
   include Authenticable
   include Authorizable
   include AutoRefreshable
