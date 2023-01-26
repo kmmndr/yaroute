@@ -1,3 +1,11 @@
 progress.secondary {
   --progress-color: var(--secondary);
 }
+
+[aria-busy=true]:not(input, select, textarea)::before {
+  display: none;
+}
+
+.turbo-progress-bar {
+  visibility: hidden;
+}

@@ -9,9 +9,6 @@ html[env=Rails.env]
     = stylesheet_link_tag "application", "data-turbo-track": "reload"
     = javascript_include_tag "application", "data-turbo-track": "reload", defer: true
 
-    - if auto_refresh?
-      meta http-equiv="refresh" content=auto_refresh
-
   body
     = yield(:header) if content_for?(:header)
 

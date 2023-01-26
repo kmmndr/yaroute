@@ -1,41 +1,42 @@
-article
-  header = @game.quiz.title
+turbo-frame id="game_play" data-turbo="true"
+  article data-controller="refresh" data-refresh-delay-value=@auto_refresh data-refresh-frame-value='game_play'
+    header = @game.quiz.title
 
-  - if @game.waiting_players?
-    h2 = t('.waiting_players')
-  - elsif @game.starting?
-    h2 = t('.ready')
-  - else @game.started?
-    h2 = @game.current_question.title
+    - if @game.waiting_players?
+      h2 = t('.waiting_players')
+    - elsif @game.starting?
+      h2 = t('.ready')
+    - else @game.started?
+      h2 = @game.current_question.title
 
-    - if @game.user == current_user
-      - if @game.delay_elapsed?
-        - @game.current_question.responses.each do |response|
-          - answers_count = @game.response_answers(response).count
-          div
-            label
-              span = "#{response.title} (#{answers_count})"
-            progress value=@game.response_percentage(response) max=100 class="#{response.value == true ? '' : 'secondary'}"
+      - if @game.user == current_user
+        - if @game.delay_elapsed?
+          - @game.current_question.responses.each do |response|
+            - answers_count = @game.response_answers(response).count
+            div
+              label
+                span = "#{response.title} (#{answers_count})"
+              progress value=@game.response_percentage(response) max=100 class="#{response.value == true ? '' : 'secondary'}"
+        - else
+          nav
+            ul
+              - @game.current_question.responses.each do |response|
+                li
+                  = link_to response.title, '', role: 'button'
       - else
         nav
           ul
             - @game.current_question.responses.each do |response|
               li
-                = link_to response.title, '', role: 'button'
-    - else
+                = form_for @answer&.new_record? ? [@answer.player, @answer] : '#' do |f|
+                  = f.hidden_field :response_id, value: response.id
+                  = f.submit value: response.title, disabled: @answer.persisted?, class: (@answer.new_record? || @answer.response == response) ? '' : 'secondary'
+
+        - if @game.next_question? && @game.delay_elapsed?
+          p = t('.time_elapsed')
+
+    footer
       nav
         ul
-          - @game.current_question.responses.each do |response|
-            li
-              = form_for @answer&.new_record? ? [@answer.player, @answer] : '#' do |f|
-                = f.hidden_field :response_id, value: response.id
-                = f.submit value: response.title, disabled: @answer.persisted?, class: (@answer.new_record? || @answer.response == response) ? '' : 'secondary'
-
-      - if @game.next_question? && @game.delay_elapsed?
-        p = t('.time_elapsed')
-
-  footer
-    nav
-      ul
-        - if @game.user == current_user && !@game.finished?
-          li = link_to t('.next_question'), game_next_question_path(@game), data: { turbo: 'true', 'turbo-method': :put }, role: 'button'
+          - if @game.user == current_user && !@game.finished?
+            li = link_to t('.next_question'), game_next_question_path(@game), data: { turbo: 'true', 'turbo-method': :put }, role: 'button'
