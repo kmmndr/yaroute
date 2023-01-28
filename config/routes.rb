@@ -24,5 +24,7 @@ Rails.application.routes.draw do
   end
   resources :responses, only: [:destroy]
 
+  mount Yaroute::API => '/'
+
   root to: redirect('/quizzes')
 end
