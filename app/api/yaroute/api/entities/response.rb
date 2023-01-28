@@ -5,7 +5,7 @@ module Yaroute
         expose :id
 
         expose :title
-        expose :value
+        expose :value, if: { type: :with_value }
       end
     end
   end

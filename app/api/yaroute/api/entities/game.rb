@@ -6,17 +6,16 @@ module Yaroute
 
         expose :code
 
-        expose :started_at
-        expose :current_question_id
-        expose :waiting_delay
-
-        expose :finished_at
-
         expose :quiz_id
         expose :user_id
 
+        expose :started_at
+        expose :finished_at
+
         expose :created_at
         expose :updated_at
+
+        expose :players, with: Yaroute::API::Entities::Player
       end
     end
   end

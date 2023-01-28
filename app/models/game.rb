@@ -42,6 +42,10 @@ class Game < ApplicationRecord
     where.not(started_at: nil)
   end
 
+  def self.not_finished
+    where(finished_at: nil)
+  end
+
   def self.finished
     where.not(finished_at: nil)
   end
