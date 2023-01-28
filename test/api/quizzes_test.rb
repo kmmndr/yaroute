@@ -1,7 +1,9 @@
 require 'test_helper'
+require_relative 'shared/authorization_methods'
 
 class Yaroute::API::QuizzesTest < MiniTest::Test
   include Rack::Test::Methods
+  include AuthorizationMethods
 
   def app
     Yaroute::API
@@ -10,8 +12,7 @@ class Yaroute::API::QuizzesTest < MiniTest::Test
   def setup
     @user1 = Account.create(login: 'user1', password: 'secret').user
 
-    pass = Base64.strict_encode64('user1:secret')
-    header 'Authorization', "Basic #{pass}"
+    add_authorization_header(login: 'user1', password: 'secret')
   end
 
   def test_get_api_quizzes_returns_an_empty_array_of_quizzes
