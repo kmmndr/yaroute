@@ -11,13 +11,22 @@ class Yaroute::API::GamesTest < MiniTest::Test
 
   def setup
     @user1 = Account.create(login: 'user1', password: 'secret').user
-
-    add_authorization_header(login: 'user1', password: 'secret')
+    @user2 = Account.create(login: 'user2', password: 'secret').user
   end
 
   def test_get_api_games_id_returns_a_game_by_id
     quiz = FactoryBot.create(:quiz, title: 'foo', user: @user1)
     game = quiz.games.create(code: '1234')
+
+    get "/api/v1/games/#{game.id}.json"
+    assert_equal 401, last_response.status
+
+    add_authorization_header(login: 'user2', password: 'secret')
+
+    get "/api/v1/games/#{game.id}.json"
+    assert_equal 403, last_response.status
+
+    add_authorization_header(login: 'user1', password: 'secret')
 
     get "/api/v1/games/#{game.id}.json"
     parsed_game = JSON.parse(last_response.body)
