@@ -27,6 +27,7 @@ Metrics/AbcSize:
 
 Metrics/BlockLength:
   Exclude:
+    - app/api/yaroute/api/*
     - config/**/*
     - test/**/*
     - lib/tasks/*
