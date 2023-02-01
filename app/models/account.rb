@@ -21,7 +21,7 @@ class Account < ApplicationRecord
   end
 
   def password
-    SCrypt::Password.new(password_hash)
+    SCrypt::Password.new(password_hash) unless password_hash.nil?
   end
 
   def password=(value)

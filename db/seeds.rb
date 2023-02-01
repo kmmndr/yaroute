@@ -7,6 +7,7 @@
 #   Character.create(name: "Luke", movie: movies.first)
 
 admin = Account.where(login: 'admin').first_or_create
+admin.update!(password: ENV['ADMIN_PASSWORD'].presence || SecureRandom.uuid) if admin.password.nil?
 
 if Rails.env.development?
   admin.update(password: 'admin')
