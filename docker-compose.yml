@@ -1,6 +1,17 @@
 version: '3.8'
 
 services:
+  postgres:
+    image: 'postgres:13-alpine'
+    restart: always
+    environment:
+      POSTGRES_USER: ${APP_DATABASE_USER:-yaroute}
+      POSTGRES_PASSWORD: ${APP_DATABASE_PASSWORD:-yaroute}
+      POSTGRES_DB: ${APP_DATABASE_NAME:-yaroute}
+      PGDATA: /data/postgres
+    volumes:
+      - postgres-data:/data/postgres
+
   rails:
     #image: ${APP_IMAGE:-localhost/yaroute:latest}
     build: .
@@ -13,4 +24,11 @@ services:
       RAILS_LOG_TO_STDOUT: ${RAILS_LOG_TO_STDOUT:-}
       SECRET_KEY_BASE: ${SECRET_KEY_BASE:-weak_secret_key}
       #
+      DATABASE_URL: postgresql://${APP_DATABASE_USER:-yaroute}:${APP_DATABASE_PASSWORD:-yaroute}@postgres:5432/${APP_DATABASE_NAME:-yaroute}
+      #
       PS1: "[$$RAILS_ENV] \\w \\$$ "
+    depends_on:
+      - postgres
+
+volumes:
+  postgres-data:
