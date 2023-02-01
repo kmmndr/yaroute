@@ -66,6 +66,7 @@ COPY --chown=app package.json yarn.lock $APP_PATH/
 RUN yarn install --check-files
 
 # Copy minimal content for assets precompilation
+COPY --chown=app app/api $APP_PATH/app/api
 COPY --chown=app app/assets $APP_PATH/app/assets
 COPY --chown=app app/javascript $APP_PATH/app/javascript
 COPY --chown=app bin $APP_PATH/bin
