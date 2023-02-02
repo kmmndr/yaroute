@@ -23,6 +23,8 @@ turbo-frame id="game_play" data-turbo="true"
               - @game.current_question.responses.each do |response|
                 li
                   = link_to response.title, '', role: 'button'
+      - elsif @game.next_question? && @game.delay_elapsed?
+        h4 = t('.time_elapsed')
       - else
         nav
           ul
@@ -31,9 +33,6 @@ turbo-frame id="game_play" data-turbo="true"
                 = form_for @answer&.new_record? ? [@answer.player, @answer] : '#' do |f|
                   = f.hidden_field :response_id, value: response.id
                   = f.submit value: response.title, disabled: @answer.persisted?, class: (@answer.new_record? || @answer.response == response) ? '' : 'secondary'
-
-        - if @game.next_question? && @game.delay_elapsed?
-          p = t('.time_elapsed')
 
     footer
       nav
