@@ -2,7 +2,8 @@ class AnswersController < DefaultController
   def create
     forbid! unless current_user.can?(:play_game, player.game)
 
-    player.answers.create(answer_params)
+    answer = player.answers.new(answer_params)
+    answer.save! if answer.eligible?
 
     redirect_to game_play_path(player.game)
   end
