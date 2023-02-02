@@ -125,7 +125,7 @@ class Game < ApplicationRecord
     current_question&.duration&.seconds&.since(current_question_at)
   end
 
-  def waiting_delay
+  def remaining_time
     end_date = if starting?
                  started_at
                elsif current_question_expiration.present?
@@ -138,7 +138,7 @@ class Game < ApplicationRecord
   end
 
   def delay_elapsed?
-    waiting_delay == 0
+    remaining_time == 0
   end
 
   def reset!

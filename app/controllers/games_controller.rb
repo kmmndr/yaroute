@@ -31,7 +31,7 @@ class GamesController < DefaultController
 
     if game.user == current_user
       if game.started?
-        game.next_step! if game.waiting_delay == 0
+        game.next_step! if game.remaining_time == 0
       else
         game.reset!
         game.start!(at: 5.seconds.from_now)
@@ -51,8 +51,8 @@ class GamesController < DefaultController
                 game.current_question&.answers&.where(player: player)&.first_or_initialize
               end
 
-    if game.started? && game.waiting_delay > 0
-      auto_refresh!(game.waiting_delay + 1)
+    if game.started? && game.remaining_time > 0
+      auto_refresh!(game.remaining_time + 1)
     elsif !game.finished?
       auto_refresh!(4)
     else
