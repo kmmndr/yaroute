@@ -2,8 +2,8 @@ version: '3.8'
 
 services:
   rails:
-    image: ${APP_IMAGE:-localhost/yaroute:latest}
-    # build: .
+    #image: ${APP_IMAGE:-localhost/yaroute:latest}
+    build: .
     restart: always
     environment:
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}

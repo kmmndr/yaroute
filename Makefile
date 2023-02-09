@@ -82,7 +82,7 @@ start: docker-compose-pull docker-compose-start ##- Start
 deploy: deploy-docker ##- alias for deploy-docker
 
 .PHONY: deploy-docker
-deploy-docker: docker-compose-pull docker-compose-deploy
+deploy-docker: docker-compose-pull docker-compose-build docker-compose-deploy
 
 .PHONY: stop
 stop: docker-compose-stop ##- Stop
