@@ -295,7 +295,7 @@ DEPENDENCIES
   jsbundling-rails
   pagy (~> 6.0)
   pg (~> 1.4.5)
-  pry (~> 0.14.2)
+  pry
   puma (~> 5.0)
   rails (~> 7.0.4)
   rails_sql_prettifier
