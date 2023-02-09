@@ -1,4 +1,4 @@
-FROM alpine:3.17 as base
+FROM alpine:3.17.1 as base
 RUN sed -i -e 's|^\(.*\)v[0-9.]*/main|@edge-testing \1edge/testing\n&|' /etc/apk/repositories
 RUN sed -i -e 's|^\(.*\)v[0-9.]*/main|@edge-community \1edge/community\n&|' /etc/apk/repositories
 
@@ -20,7 +20,7 @@ RUN apk add --no-cache --virtual ruby-dependencies curl libcurl libffi gdbm \
 	    goreman@edge-testing \
  && adduser -D -g app -u $APP_UID app
 
-ENV RUBY_VERSION=3.1.2 \
+ENV RUBY_VERSION=3.1.3 \
     APP_PATH=/srv/app
 
 ###
