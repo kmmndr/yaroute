@@ -19,6 +19,9 @@ case $stage in
 		EOF
 		;;
 
+	'staging'|'production')
+		;;
+
 	*)
 		echo "Unknown stage $stage"
 		exit 1

@@ -1,0 +1,25 @@
+{
+	auto_https off
+	admin off
+}
+
+http://:8080 {
+	root * /srv/app/public
+	log
+
+	@notStatic {
+		not {
+			file {
+				try_files {path}
+			}
+		}
+	}
+	reverse_proxy @notStatic 127.0.0.1:9292 {
+		trusted_proxies private_ranges
+	}
+	file_server
+
+	handle_errors {
+		respond "Under maintenance, please come back later"
+	}
+}
