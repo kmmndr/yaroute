@@ -3,18 +3,25 @@
     .field
       = f.label :title
       = f.text_field :title
-      = f.fields_for :responses do |ff|
-        .grid
-          .field
-             = ff.label :title
-             = ff.text_field :title
-          .field
-             = ff.label :value
-             = ff.check_box :value, role: 'switch' do
-             = t('.value')
-             br
-             - if ff.object.id.present?
-               = link_to t('delete'), response_path(ff.object), data: { turbo: 'true', 'turbo-method': :delete }
+    .grid
+      .field
+        = f.label :points
+        = f.number_field :points
+      .field
+        = f.label :duration
+        = f.number_field :duration
+    = f.fields_for :responses do |ff|
+      .grid
+        .field
+           = ff.label :title
+           = ff.text_field :title
+        .field
+           = ff.label :value
+           = ff.check_box :value, role: 'switch' do
+           = t('.value')
+           br
+           - if ff.object.id.present?
+             = link_to t('delete'), response_path(ff.object), data: { turbo: 'true', 'turbo-method': :delete }
     = f.submit
 
 nav
