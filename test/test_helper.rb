@@ -2,6 +2,7 @@ ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
 require 'rails/test_help'
 
+DatabaseCleaner.allow_remote_database_url = true
 DatabaseCleaner.strategy = :transaction
 
 module AroundEachTest
