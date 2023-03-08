@@ -4,35 +4,32 @@ turbo-frame id="game_play" data-turbo="true"
 
     - if @game.waiting_players?
       h2 = t('.waiting_players')
+
     - elsif @game.starting?
       h2 = t('.ready')
+
     - else @game.started?
       h2 = @game.current_question.title
 
-      - if @game.user == current_user
-        - if @game.delay_elapsed?
-          - @game.current_question.responses.each do |response|
-            - answers_count = @game.response_answers(response).count
-            div
-              label
-                span = "#{response.title} (#{answers_count})"
-              progress value=@game.response_percentage(response) max=100 class="#{response.value == true ? '' : 'secondary'}"
-        - else
-          nav
-            ul
-              - @game.current_question.responses.each do |response|
-                li
-                  = link_to response.title, '', role: 'button'
-      - elsif @game.next_question? && @game.delay_elapsed?
-        h4 = t('.time_elapsed')
-      - else
+      - if @game.remaining_time?
         nav
           ul
             - @game.current_question.responses.each do |response|
               li
-                = form_for @answer&.new_record? ? [@answer.player, @answer] : '#' do |f|
-                  = f.hidden_field :response_id, value: response.id
-                  = f.submit value: response.title, disabled: @answer.persisted?, class: (@answer.new_record? || @answer.response == response) ? '' : 'secondary'
+                - if @game.user == current_user
+                  = link_to response.title, '', role: 'button'
+                - else
+                  = form_for @answer&.new_record? ? [@answer.player, @answer] : '#' do |f|
+                    = f.hidden_field :response_id, value: response.id
+                    = f.submit value: response.title, disabled: @answer.persisted?, class: (@answer.new_record? || @answer.response == response) ? '' : 'secondary'
+      - else
+        - @game.current_question.responses.each do |response|
+          - answers_count = @game.response_answers(response).count
+          div
+            label
+              span = "#{response.title} (#{answers_count})"
+            progress value=@game.response_percentage(response) max=100 class="#{response.value == true ? '' : 'secondary'}"
+        h4 = t('.time_elapsed')
 
     footer
       nav

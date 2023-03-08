@@ -137,6 +137,10 @@ class Game < ApplicationRecord
     delay_until(end_date)
   end
 
+  def remaining_time?
+    remaining_time > 0
+  end
+
   def delay_elapsed?
     remaining_time == 0
   end
