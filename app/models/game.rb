@@ -16,8 +16,7 @@ class Game < ApplicationRecord
   end
 
   def response_answers(response)
-    all_answers = current_answers
-    all_answers.where(response: response) if response.present?
+    current_answers.where(response: response) if response.present?
   end
 
   def response_percentage(response)
@@ -89,23 +88,26 @@ class Game < ApplicationRecord
                 ids[next_idx]
               end
 
-    return if next_id.nil?
-
-    @next_question = questions.find_by(id: next_id)
+    @next_question = if next_id.nil?
+                       nil
+                     else
+                       questions.find_by(id: next_id)
+                     end
   end
 
   def next_question!
     return if next_question.nil?
 
-    self.current_question_id = next_question.id
-    self.current_question_at = Time.zone.now
-    save!
+    update!(
+      current_question_id: next_question.id,
+      current_question_at: Time.zone.now
+    )
 
     self
   end
 
   def next_question?
-    started? && !last_question? # && delay_elapsed?
+    started? && !last_question?
   end
 
   def last_question?

@@ -47,11 +47,9 @@ class GamesController < DefaultController
     redirect_to new_player_path and return unless current_user.can?(:read_game, game)
 
     @player = current_user.player_in_game(game)
-    @answer = if (player = current_user.player_in_game(game))
-                game.current_question&.answers&.where(player: player)&.first_or_initialize
-              end
+    @answer = game.current_question&.answers&.where(player: @player)&.first_or_initialize if @player
 
-    if game.started? && game.remaining_time > 0
+    if game.started? && game.remaining_time?
       auto_refresh!(game.remaining_time + 1)
     elsif !game.finished?
       auto_refresh!(4)
@@ -67,6 +65,6 @@ class GamesController < DefaultController
   end
 
   def quiz
-    Quiz.find(params[:quiz_id])
+    @quiz ||= Quiz.find(params[:quiz_id])
   end
 end
