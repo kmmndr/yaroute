@@ -1,17 +1,21 @@
-$color-1: #540D6E;
-$color-2: #EE4266;
-$color-3: #FFD23F;
-$color-4: #3BCEAC;
-$color-5: #2364AA;
-$color-6: #0EAD69;
+$color-0: #540D6E;
+$color-1: #EE4266;
+$color-2: #FFD23F;
+$color-3: #3BCEAC;
+$color-4: #2364AA;
+$color-5: #0EAD69;
 
 div[class^='color-'] input{
   opacity: 1;
 }
 
+.color-0{
+  --primary: #{$color-0};
+  --primary-hover: #{darken($color-0, 10%)};
+}
 .color-1{
   --primary: #{$color-1};
-  --primary-hover: #{darken($color-1, 10%)};
+  --primary-hover: #{darken($color-1, 15%)};
 }
 .color-2{
   --primary: #{$color-2};
@@ -28,8 +32,4 @@ div[class^='color-'] input{
 .color-5{
   --primary: #{$color-5};
   --primary-hover: #{darken($color-5, 15%)};
-}
-.color-6{
-  --primary: #{$color-6};
-  --primary-hover: #{darken($color-6, 15%)};
 }
