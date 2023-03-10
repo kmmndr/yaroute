@@ -1,0 +1,35 @@
+$color-1: #540D6E;
+$color-2: #EE4266;
+$color-3: #FFD23F;
+$color-4: #3BCEAC;
+$color-5: #2364AA;
+$color-6: #0EAD69;
+
+div[class^='color-'] input{
+  opacity: 1;
+}
+
+.color-1{
+  --primary: #{$color-1};
+  --primary-hover: #{darken($color-1, 10%)};
+}
+.color-2{
+  --primary: #{$color-2};
+  --primary-hover: #{darken($color-2, 15%)};
+}
+.color-3{
+  --primary: #{$color-3};
+  --primary-hover: #{darken($color-3, 15%)};
+}
+.color-4{
+  --primary: #{$color-4};
+  --primary-hover: #{darken($color-4, 15%)};
+}
+.color-5{
+  --primary: #{$color-5};
+  --primary-hover: #{darken($color-5, 15%)};
+}
+.color-6{
+  --primary: #{$color-6};
+  --primary-hover: #{darken($color-6, 15%)};
+}
