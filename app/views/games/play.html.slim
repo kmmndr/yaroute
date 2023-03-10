@@ -12,16 +12,18 @@ turbo-frame id="game_play" data-turbo="true"
       h2 = @game.current_question.title
 
       - if @game.remaining_time?
-        nav
-          ul
-            - @game.current_question.responses.each do |response|
-              li
-                - if @game.user == current_user
-                  = link_to response.title, '', role: 'button'
-                - else
-                  = form_for @answer&.new_record? ? [@answer.player, @answer] : '#' do |f|
-                    = f.hidden_field :response_id, value: response.id
-                    = f.submit value: response.title, disabled: @answer.persisted?, class: (@answer.new_record? || @answer.response == response) ? '' : 'secondary'
+        - count = 0
+        - @game.current_question.responses.each_slice(2) do |responses|
+          .grid
+            - responses.each do |response|
+              - count += 1
+              = form_for @answer&.new_record? ? [@answer.player, @answer] : '#', html: { class: 'form--play' } do |f|
+                = f.hidden_field :response_id, value: response.id
+                div class="color-#{count}"
+                  - if @game.user == current_user
+                    = f.submit value: response.title, disabled: true, class: "button--response"
+                  - else
+                    = f.submit value: response.title, disabled: @answer&.persisted?, class: (@answer&.new_record? || @answer&.response == response) ? "button--response" : "button--response secondary"
       - else
         - @game.current_question.responses.each do |response|
           - answers_count = @game.response_answers(response).count
