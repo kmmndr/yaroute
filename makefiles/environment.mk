@@ -1,5 +1,7 @@
 # https://github.com/kmmndr/makefile-collection
 
+MAKEFLAGS += --no-builtin-rules --no-print-directory --output-sync=target
+
 stage ?= default
 
 .PHONY: stage-%
