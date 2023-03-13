@@ -1,5 +1,3 @@
-REGISTRY_PROJECT_URL ?= localhost/yaroute
-BUILD_SUBPATH ?=dev
 # BUILD_ID = commit_sha
 BUILD_ID ?=$(shell test -d .git && git rev-parse HEAD | cut -c -8)
 # REF_ID = branch_name
@@ -8,14 +6,35 @@ REF_ID ?=$(shell test -d .git \
 	 | sed -e 's/[^a-z0-9]/-/g' -e 's/^[-+]//' -e 's/[-+]$$//' \
 	 | cut -c 1-62)
 
+DOCKER_IMAGE?=ghcr.io/kmmndr/yaroute
+DOCKER_TAG?=${BUILD_ID}
+
+# docker-build-image-base: ;
+docker-build-image-ruby: docker-build-image-base
+docker-build-image-build: docker-build-image-ruby
+docker-build-image-test: docker-build-image-build
+docker-build-image-local: docker-build-image-ruby
+docker-build-image-final: docker-build-image-base docker-build-image-build
+
 default: help
 include makefiles/*.mk
 
 ## CI
 
-ci-build: docker-pull docker-build
-ci-push: docker-push
-ci-push-release: docker-pull-final docker-push-release
+build: \
+	docker-build-image-final \
+	docker-build-image-test
+
+ci-build: \
+	docker-build-push-image-final \
+	docker-build-push-image-test
+
+ci-release: \
+	docker-pull-tagged-image-final \
+	docker-tag-from-final \
+	docker-push-tagged-image \
+	docker-push-latest-image
+
 ci-test: test-most test-system
 
 ## Tests
@@ -72,11 +91,8 @@ dockerized-rails-test-system: environment set-test-docker-compose-files
 
 ## Deployments
 
-.PHONY: build
-build: docker-compose-build
-
 .PHONY: start
-start: docker-compose-pull docker-compose-start ##- Start
+start: docker-compose-pull docker-compose-build docker-compose-start ##- Start
 
 .PHONY: deploy
 deploy: deploy-docker ##- alias for deploy-docker
@@ -114,8 +130,3 @@ console: environment ##- Enter console
 .PHONY: local-start
 local-start: set-local-docker-compose-files docker-compose-build docker-compose-start ##- Build and start
 	@$(load_env); ${COMPOSE} exec rails sh -c "[ -x ./docker.local.sh ] && sudo ./docker.local.sh; true"
-
-.PHONY: local-ports
-local-ports: environment ##- Display available local ports
-	@echo 'Local ports:'
-	@$(load_env); env | grep LOCAL_PORT | sed -e 's/^LOCAL_PORT_/ - /' -e 's/=/: /'
