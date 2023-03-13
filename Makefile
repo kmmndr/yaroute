@@ -1,5 +1,3 @@
-REGISTRY_PROJECT_URL ?= localhost/yaroute
-BUILD_SUBPATH ?=dev
 # BUILD_ID = commit_sha
 BUILD_ID ?=$(shell test -d .git && git rev-parse HEAD | cut -c -8)
 # REF_ID = branch_name
@@ -8,14 +6,31 @@ REF_ID ?=$(shell test -d .git \
 	 | sed -e 's/[^a-z0-9]/-/g' -e 's/^[-+]//' -e 's/[-+]$$//' \
 	 | cut -c 1-62)
 
+DOCKER_IMAGE?=ghcr.io/kmmndr/yaroute
+DOCKER_TAG?=${BUILD_ID}
+
+# docker-image-base:
+docker-image-ruby: docker-image-base
+docker-image-build: docker-image-ruby
+docker-image-test: docker-image-build
+docker-image-local: docker-image-ruby
+docker-image-final: docker-image-build
+
 default: help
 include makefiles/*.mk
 
 ## CI
 
-ci-build: docker-pull docker-build
-ci-push: docker-push
-ci-push-release: docker-pull-final docker-push-release
+build-image: \
+	docker-pull-all-latest-images \
+	docker-all-images \
+	docker-tag-all-latest-images \
+	docker-tag-latest-image-from-final
+push-image: \
+	docker-push-latest-image
+
+ci-build: build-image push-image
+
 ci-test: test-most test-system
 
 ## Tests
@@ -72,9 +87,6 @@ dockerized-rails-test-system: environment set-test-docker-compose-files
 
 ## Deployments
 
-.PHONY: build
-build: docker-compose-build
-
 .PHONY: start
 start: docker-compose-pull docker-compose-start ##- Start
 
@@ -114,8 +126,3 @@ console: environment ##- Enter console
 .PHONY: local-start
 local-start: set-local-docker-compose-files docker-compose-build docker-compose-start ##- Build and start
 	@$(load_env); ${COMPOSE} exec rails sh -c "[ -x ./docker.local.sh ] && sudo ./docker.local.sh; true"
-
-.PHONY: local-ports
-local-ports: environment ##- Display available local ports
-	@echo 'Local ports:'
-	@$(load_env); env | grep LOCAL_PORT | sed -e 's/^LOCAL_PORT_/ - /' -e 's/=/: /'
