@@ -13,8 +13,7 @@ services:
       - postgres-data:/data/postgres
 
   rails:
-    #image: ${APP_IMAGE:-localhost/yaroute:latest}
-    build: .
+    image: ${APP_IMAGE:-ghcr.io/kmmndr/yaroute:latest}
     restart: always
     environment:
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}

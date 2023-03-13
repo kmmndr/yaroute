@@ -13,8 +13,6 @@ EOF
 case $stage in
 	'default'|'test')
 		cat <<-EOF
-		## docker image to run using make's start target
-		APP_IMAGE=localhost/yaroute:latest
 		ADMIN_PASSWORD=admin
 		EOF
 		;;
