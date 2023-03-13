@@ -1,113 +1,60 @@
 # https://github.com/kmmndr/makefile-collection
 
-REGISTRY      ?= localhost
-BUILD_ID      ?= edge
-REF_ID        ?= latest
-BUILD_SUBPATH ?= dev
-PROJECT_PATH  ?= $(notdir $(realpath $(dir $(lastword $(MAKEFILE_LIST)))))
-DOCKERFILE    ?= Dockerfile
-DOCKER        ?= docker
-
-DOCKER_BUILD_ARGS ?=
+DOCKER_IMAGE?=localhost/application
+DOCKER_TAG?=latest
+DOCKER_CONTEXT?=.
+DOCKER_FILE?=Dockerfile
+DOCKER_CACHE_FROM_IMAGE?=--cache-from ${DOCKER_IMAGE}
+DOCKER_BUILD_ARGS=--build-arg SOURCE_IMAGE=${DOCKER_IMAGE}
+DOCKER?=docker
 
 export DOCKER_BUILDKIT = 1
 
-REGISTRY_PROJECT_URL ?= $(REGISTRY)/$(PROJECT_PATH)
-BUILD_PATH=$(REGISTRY_PROJECT_URL)/${BUILD_SUBPATH}
+Dockerfiles: Dockerfile
+	dockerfile_splitter -base-image ${DOCKER_IMAGE}
 
-CONTAINER_BUILD_IMAGE=${BUILD_PATH}:$(BUILD_ID)
-CONTAINER_REF_IMAGE=${BUILD_PATH}:$(REF_ID)
-CONTAINER_LATEST_BUILD_IMAGE=${BUILD_PATH}:latest
-CONTAINER_RELEASE_IMAGE=${REGISTRY_PROJECT_URL}:${REF_ID}
+DOCKERFILES=$(wildcard Dockerfile-*)
 
-DOCKER_TARGETS=$(shell cat ${DOCKERFILE} | awk '/^[[:blank:]]*FROM/ { print $$4 }' | xargs)
+docker-pull-tagged-image:
+	${DOCKER} pull ${DOCKER_IMAGE}:${DOCKER_TAG}
+docker-pull-tagged-image-%:
+	${DOCKER} pull ${DOCKER_IMAGE}:${DOCKER_TAG}-$*
+docker-pull-tagged-images: $(DOCKERFILES:Dockerfile-%=docker-pull-tagged-image-%)
 
-for_each_target=set -eu; for docker_target in ${DOCKER_TARGETS}; do $(1); done
+docker-pull-latest-image:
+	-${DOCKER} pull ${DOCKER_IMAGE}:latest
+docker-pull-latest-image-%:
+	-${DOCKER} pull ${DOCKER_IMAGE}:latest-$*
+docker-pull-latest-images: $(DOCKERFILES:Dockerfile-%=docker-pull-latest-image-%)
 
-## Targets
-.PHONY: docker-targets
-docker-targets:
-	@echo "Targets: ${DOCKER_TARGETS}"
+docker-build-image: Dockerfile docker-pull-latest-image
+	${DOCKER} build ${DOCKER_BUILD_ARGS} ${DOCKER_CACHE_FROM_IMAGE}:latest --tag ${DOCKER_IMAGE}:${DOCKER_TAG} --file $< ${DOCKER_CONTEXT}
+	${DOCKER} tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_IMAGE}:latest
+docker-build-image-%: Dockerfile-% docker-pull-latest-image-%
+	${DOCKER} build ${DOCKER_BUILD_ARGS} ${DOCKER_CACHE_FROM_IMAGE}:latest-$* --tag ${DOCKER_IMAGE}:${DOCKER_TAG}-$* --file $< ${DOCKER_CONTEXT}
+	${DOCKER} tag ${DOCKER_IMAGE}:${DOCKER_TAG}-$* ${DOCKER_IMAGE}:latest-$*
+docker-build-images: $(DOCKERFILES:Dockerfile-%=docker-build-image-%)
+	${DOCKER} tag ${DOCKER_IMAGE}:${DOCKER_TAG}-final ${DOCKER_IMAGE}:${DOCKER_TAG}
+	${DOCKER} tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_IMAGE}:latest
 
-## Pull
-.PHONY: docker-pull-stages
-docker-pull-stages: ##- Pull intermediate containers
-	$(call for_each_target, \
-		${DOCKER} pull "${CONTAINER_BUILD_IMAGE}-$$docker_target" || \
-			${DOCKER} pull "${CONTAINER_REF_IMAGE}-$$docker_target" || \
-			true \
-	)
+docker-tag-from-final:
+	${DOCKER} tag ${DOCKER_IMAGE}:${DOCKER_TAG}-final ${DOCKER_IMAGE}:${DOCKER_TAG}
+	${DOCKER} tag ${DOCKER_IMAGE}:${DOCKER_TAG}-final ${DOCKER_IMAGE}:latest
 
-.PHONY: docker-pull-final
-docker-pull-final: ##- Pull final container
-	-${DOCKER} pull $(CONTAINER_BUILD_IMAGE)
+docker-push-tagged-image:
+	${DOCKER} push ${DOCKER_IMAGE}:${DOCKER_TAG}
+docker-push-tagged-image-%:
+	${DOCKER} push ${DOCKER_IMAGE}:${DOCKER_TAG}-$*
+docker-push-tagged-images: $(DOCKERFILES:Dockerfile-%=docker-push-tagged-image-%)
 
-.PHONY: docker-pull
-docker-pull: docker-pull-stages docker-pull-final ##- Pull containers
+docker-push-latest-image:
+	${DOCKER} push ${DOCKER_IMAGE}:latest
+docker-push-latest-image-%:
+	${DOCKER} push ${DOCKER_IMAGE}:latest-$*
+docker-push-latest-images: $(DOCKERFILES:Dockerfile-%=docker-push-latest-image-%)
 
-## Build
-.PHONY: docker-build-stages
-docker-build-stages: ##- Build intermediate containers
-	$(call for_each_target, \
-		${DOCKER} build \
-			--tag "${CONTAINER_BUILD_IMAGE}-$$docker_target" \
-			${DOCKER_BUILD_ARGS} \
-			--build-arg BUILDKIT_INLINE_CACHE=1 \
-			--cache-from "${CONTAINER_BUILD_IMAGE}-$$docker_target" \
-			--cache-from "${CONTAINER_REF_IMAGE}-$$docker_target" \
-			--cache-from "${CONTAINER_LATEST_BUILD_IMAGE}-$$docker_target" \
-			--target $$docker_target \
-			. ; \
-		${DOCKER} tag "${CONTAINER_BUILD_IMAGE}-$$docker_target" "${CONTAINER_LATEST_BUILD_IMAGE}-$$docker_target" \
-	)
+docker-push-image:   docker-push-tagged-image   docker-push-latest-image ;
+docker-push-image-%: docker-push-tagged-image-% docker-push-latest-image-% ;
 
-.PHONY: docker-build-final
-docker-build-final: ##- Build final container
-	${DOCKER} build \
-		--tag $(CONTAINER_BUILD_IMAGE) \
-		${DOCKER_BUILD_ARGS} \
-		--build-arg BUILDKIT_INLINE_CACHE=1 \
-		.
-	${DOCKER} tag ${CONTAINER_BUILD_IMAGE} ${CONTAINER_LATEST_BUILD_IMAGE}
-
-.PHONY: docker-build
-docker-build: docker-build-stages docker-build-final ##- Build containers
-
-## Tag
-.PHONY: docker-tag-ref
-docker-tag-ref:
-	$(call for_each_target, \
-		${DOCKER} tag "${CONTAINER_BUILD_IMAGE}-$$docker_target" "${CONTAINER_REF_IMAGE}-$$docker_target" \
-	)
-	${DOCKER} tag ${CONTAINER_BUILD_IMAGE} ${CONTAINER_REF_IMAGE}
-
-.PHONY: docker-tag-release
-docker-tag-release: docker-pull-final
-	${DOCKER} tag ${CONTAINER_BUILD_IMAGE} ${CONTAINER_RELEASE_IMAGE}
-
-## Push
-.PHONY: docker-push-stages
-docker-push-stages: ##- Push intermediate containers to registry
-	$(call for_each_target, \
-		${DOCKER} push "${CONTAINER_BUILD_IMAGE}-$$docker_target"; \
-		${DOCKER} push "${CONTAINER_LATEST_BUILD_IMAGE}-$$docker_target" \
-	)
-
-.PHONY: docker-push-final
-docker-push-final: ##- Push final container to registry
-	${DOCKER} push $(CONTAINER_BUILD_IMAGE)
-
-.PHONY: docker-push-ref
-docker-push-ref: docker-tag-ref ##- Push ref container to registry
-	$(call for_each_target, \
-		${DOCKER} push "${CONTAINER_REF_IMAGE}-$$docker_target" \
-	)
-	${DOCKER} push ${CONTAINER_REF_IMAGE}
-	${DOCKER} push ${CONTAINER_LATEST_BUILD_IMAGE}
-
-.PHONY: docker-push-release
-docker-push-release: docker-tag-release ##- Push releases containers to registry
-	${DOCKER} push ${CONTAINER_RELEASE_IMAGE}
-
-.PHONY: docker-push
-docker-push: docker-push-stages docker-push-final docker-push-ref ##- Push containers to registry
+docker-build-push-image:   docker-build-image   docker-push-image ;
+docker-build-push-image-%: docker-build-image-% docker-push-image-% ;
