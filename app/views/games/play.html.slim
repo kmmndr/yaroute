@@ -4,6 +4,7 @@ turbo-frame id="game_play" data-turbo="true"
 
     - if @game.waiting_players?
       h2 = t('.waiting_players')
+      = render('join_code', game: @game)
 
     - elsif @game.starting?
       h2 = t('.ready')

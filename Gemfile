@@ -60,6 +60,8 @@ gem 'grape'
 gem 'grape-entity'
 gem 'grape-pagy'
 
+gem 'rqrcode', '~> 2.0'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri mingw x64_mingw]

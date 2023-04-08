@@ -58,6 +58,8 @@ en:
   games:
     create:
       notice_created: Notice created
+    join_code:
+      notice: Share this code to join the game
     play:
       next_question: Next question
       ready: Ready
@@ -67,7 +69,6 @@ en:
     show:
       details: Details
       finished: Finished
-      join_code: Share this code to join the game
       play: Play
       players: Players
       reset: Reset

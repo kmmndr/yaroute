@@ -1,0 +1,4 @@
+div = image_tag QrcodeGenerator.new(new_player_url(code: game.code)).image_tag
+span => t('.notice')
+mark
+  = link_to game.code, new_player_path(code: game.code)

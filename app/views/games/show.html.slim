@@ -17,9 +17,7 @@ article
       a role="button" => player.name
 
     p
-      span => t('.join_code')
-      mark
-        = link_to @game.code, new_player_path(code: @game.code)
+      = render('join_code', game: @game)
 
   footer
     nav
