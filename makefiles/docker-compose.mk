@@ -1,6 +1,6 @@
 # https://github.com/kmmndr/makefile-collection
 
-COMPOSE ?= docker-compose
+COMPOSE ?= docker compose
 
 compose_files :=
 
