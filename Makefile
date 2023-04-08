@@ -1,3 +1,5 @@
+export APP_UID=$(shell id -u)
+
 # BUILD_ID = commit_sha
 BUILD_ID ?=$(shell test -d .git && git rev-parse HEAD | cut -c -8)
 # REF_ID = branch_name

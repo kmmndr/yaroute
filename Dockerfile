@@ -2,8 +2,6 @@ FROM alpine:3.17.1 as base
 RUN sed -i -e 's|^\(.*\)v[0-9.]*/main|@edge-testing \1edge/testing\n&|' /etc/apk/repositories
 RUN sed -i -e 's|^\(.*\)v[0-9.]*/main|@edge-community \1edge/community\n&|' /etc/apk/repositories
 
-ARG APP_UID=1000
-
 RUN apk add --no-cache --virtual ruby-dependencies curl libcurl libffi gdbm \
       icu ncurses readline openssl libxml2 libxslt yaml zlib \
       imagemagick \
@@ -14,11 +12,14 @@ RUN apk add --no-cache --virtual ruby-dependencies curl libcurl libffi gdbm \
       \
  && apk add --no-cache \
       yarn \
-	    esbuild@edge-community \
+      esbuild@edge-community \
       caddy nss-tools \
       supercronic \
-	    goreman@edge-testing \
- && adduser -D -g app -u $APP_UID app
+      goreman@edge-testing
+
+ARG APP_UID=1000
+ENV APP_UID=$APP_UID
+RUN adduser -D -g app -u $APP_UID app
 
 ENV RUBY_VERSION=3.1.3 \
     APP_PATH=/srv/app

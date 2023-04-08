@@ -5,6 +5,8 @@ services:
     build:
       context: .
       target: 'local'
+      args:
+        APP_UID: ${APP_UID:-1000}
     environment:
       RAILS_ENV:
       RACK_ENV:
