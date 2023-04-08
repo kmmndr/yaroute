@@ -10,6 +10,10 @@
       .field
         = f.label :duration
         = f.number_field :duration
+    - if @question.image.attached?
+      = image_tag url_for(@question.image)
+    .field
+      = f.file_field :image
     = f.fields_for :responses do |ff|
       .grid
         .field

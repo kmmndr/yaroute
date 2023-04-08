@@ -61,7 +61,7 @@ class QuestionsController < DefaultController
   end
 
   def question_params
-    ret = params.require(:question).permit(:title, :points, :duration, responses_attributes: [:id, :title, :value])
+    ret = params.require(:question).permit(:title, :image, :points, :duration, responses_attributes: [:id, :title, :value])
     ret['responses_attributes']&.delete_if { |_k, v| v&.[]('title').blank? }
 
     ret

@@ -12,6 +12,9 @@ turbo-frame id="game_play" data-turbo="true"
     - else @game.started?
       h2 = @game.current_question.title
 
+      - if @game.current_question.image.attached?
+        = image_tag url_for(@game.current_question.image)
+
       - if @game.remaining_time?
         - @game.current_question.responses.each.with_index.each_slice(2) do |responses|
           .grid
