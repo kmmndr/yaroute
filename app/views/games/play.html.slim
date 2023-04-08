@@ -33,7 +33,9 @@ turbo-frame id="game_play" data-turbo="true"
         h4 = t('.time_elapsed')
 
     footer
-      nav
-        ul
-          - if @game.user == current_user && !@game.finished?
+      - if @game.user == current_user && !@game.finished?
+        nav
+          ul
+            li = link_to t('.reset'), game_reset_path(@game), data: { turbo: 'true', 'turbo-method': :put, 'turbo-confirm': 'reset ?' }, role: 'button', class: 'secondary'
+          ul
             li = link_to t('.next_question'), game_next_question_path(@game), data: { turbo: 'true', 'turbo-method': :put }, role: 'button'
