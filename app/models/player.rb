@@ -3,6 +3,8 @@ class Player < ApplicationRecord
   belongs_to :user
   has_many :answers, dependent: :destroy
 
+  validates :name, presence: true
+
   before_validation :ensure_user_presence
 
   def ensure_user_presence

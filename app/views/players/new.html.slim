@@ -1,11 +1,11 @@
 .container
   = form_for @player do |f|
-    - if params[:code].present?
-      = f.hidden_field :code, value: params[:code]
+    - if @code.present?
+      = f.hidden_field :code, value: @code
     - else
       .field
         = f.label :code
-        = f.text_field :code, value: params[:code]
+        = f.text_field :code, value: @code
     .field
       = f.label :name
       = f.text_field :name, value: current_user&.players&.last&.name

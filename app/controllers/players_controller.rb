@@ -3,6 +3,7 @@ class PlayersController < DefaultController
 
   def new
     @player = Player.new
+    @code = params[:code]
   end
 
   def edit; end
@@ -22,6 +23,8 @@ class PlayersController < DefaultController
 
       redirect_to game_play_path(game)
     else
+      @code = code
+      @player = new_player
       render :new, status: :unprocessable_entity
     end
   end
