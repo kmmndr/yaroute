@@ -17,12 +17,22 @@ Rails.application.routes.draw do
     resources :answers, only: [:create]
   end
 
-  resources :questions, only: [:edit, :update, :destroy]
+  resources :questions, only: [:edit, :update, :destroy] do
+    member do
+      put 'move_up'
+      put 'move_down'
+    end
+  end
   resources :quizzes do
     resources :questions, only: [:new, :create]
     resources :games, only: [:create]
   end
-  resources :responses, only: [:destroy]
+  resources :responses, only: [:destroy] do
+    member do
+      put 'move_up'
+      put 'move_down'
+    end
+  end
 
   mount Yaroute::API => '/'
 

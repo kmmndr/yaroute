@@ -26,6 +26,10 @@
            br
            - if ff.object.id.present?
              = link_to t('delete'), response_path(ff.object), data: { turbo: 'true', 'turbo-method': :delete }
+             |  (
+             = link_to 'up', move_up_response_path(ff.object), data: { turbo: 'true', 'turbo-method': :put }
+             =< link_to 'down', move_down_response_path(ff.object), data: { turbo: 'true', 'turbo-method': :put }
+             | )
     = f.submit
 
 nav

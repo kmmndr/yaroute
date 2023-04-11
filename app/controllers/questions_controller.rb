@@ -54,6 +54,18 @@ class QuestionsController < DefaultController
                 notice: t('.notice_deleted')
   end
 
+  def move_up
+    PositionHandler.new(scope: question.quiz.questions, element: question).move!(:up)
+
+    redirect_to quiz_path(question.quiz)
+  end
+
+  def move_down
+    PositionHandler.new(scope: question.quiz.questions, element: question).move!(:down)
+
+    redirect_to quiz_path(question.quiz)
+  end
+
   private
 
   def question

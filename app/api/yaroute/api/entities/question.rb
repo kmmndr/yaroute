@@ -4,6 +4,7 @@ module Yaroute
       class Question < Grape::Entity
         expose :id
 
+        expose :position
         expose :title
 
         expose :responses, with: Yaroute::API::Entities::Response
