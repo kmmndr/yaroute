@@ -52,7 +52,7 @@ class GamesController < DefaultController
     if game.started? && game.remaining_time?
       auto_refresh!(game.remaining_time + 1)
     elsif !game.finished?
-      auto_refresh!(4)
+      auto_refresh!((3..5).to_a.sample)
     else
       redirect_to game_path(game)
     end
