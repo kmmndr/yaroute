@@ -7,7 +7,7 @@
         = f.label :code
         = f.text_field :code, value: @code
     .field
-      = f.label :name
+      = f.label :name, t('.name')
       = f.text_field :name, value: current_user&.players&.last&.name
-    = f.submit
+    = f.submit t('.submit')
 

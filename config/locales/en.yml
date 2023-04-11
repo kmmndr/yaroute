@@ -78,6 +78,9 @@ en:
   logout: Logout %{name}
   new: New
   players:
+    new:
+      name: Enter your name
+      submit: Join the game
     destroy:
       notice_deleted: Notice deleted
     update:
