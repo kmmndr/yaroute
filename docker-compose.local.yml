@@ -1,6 +1,11 @@
 version: '3.8'
 
 services:
+  minio:
+    ports:
+      - "${LOCAL_PORT_MINIO:-9000}:9000"
+      - "${LOCAL_PORT_MINIO_CONSOLE:-9001}:9001"
+
   rails:
     build:
       context: .
