@@ -18,6 +18,9 @@ case $stage in
 		;;
 
 	'staging'|'production')
+		cat <<-EOF
+		PROJECT_ENVIRONMENT=$stage
+		EOF
 		;;
 
 	*)
