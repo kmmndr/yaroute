@@ -62,7 +62,7 @@ en:
       notice: Share this code to join the game
     play:
       next_question: Next question
-      ready: Ready
+      ready: Ready ?
       reset: Reset
       time_elapsed: Time elapsed
       waiting_players: Waiting players

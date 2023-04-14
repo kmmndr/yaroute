@@ -1,0 +1,120 @@
+---
+fr:
+  accounts:
+    create:
+      notice_created: Notice crée
+    destroy:
+      notice_deleted: Notice supprimée
+    update:
+      notice_updated: Notice mise à jour
+  activerecord:
+    attributes:
+      account:
+        login: Identifiant
+        password: Mot de passe
+      game:
+        code: Code
+      player:
+        name: Nom
+      question:
+        duration: Durée
+        points: Points
+        title: Question
+      quiz:
+        title: Titre du quiz
+      response:
+        title: Solution
+        value: Valeur
+      user:
+        first_name: Prénom
+        last_name: Nom
+    models:
+      account:
+        one: Compte
+        other: Comptes
+      answer:
+        one: Réponse
+        other: Réponses
+      game:
+        one: Partie
+        other: Parties
+      player:
+        one: Joueur
+        other: Joueurs
+      question:
+        one: Question
+        other: Questions
+      quiz:
+        one: Quiz
+        other: Quizzes
+      response:
+        one: Solution
+        other: Solutions
+      user:
+        one: Utilisateur
+        other: Utilisateurs
+  delete: Supprimer
+  edit: Modifier
+  games:
+    create:
+      notice_created: Notice crée
+    join_code:
+      notice: Partagez ce code pour rejoindre la partie
+    play:
+      next_question: Prochaine question
+      ready: Prêt ?
+      reset: Reset
+      time_elapsed: Le temps est écoulé
+      waiting_players: En attente d'autres joueurs
+    show:
+      details: Détails
+      finished: Partie terminée
+      play: Jouer
+      players: Joueurs
+      reset: Reset
+      score: "%{score} points"
+      start: Démarrer
+  login: Se connecter
+  logout: Déconnection %{name}
+  new: Nouveau
+  players:
+    new:
+      name: Entrez votre nom
+      submit: Rejoindre la partie
+    destroy:
+      notice_deleted: Notice supprimée
+    update:
+      notice_updated: Notice mise à jour
+  questions:
+    create:
+      notice_created: Notice crée
+    destroy:
+      notice_deleted: Notice supprimée
+    form:
+      back_to_quiz: Retour au quiz
+      value: Bonne réponse ?
+    update:
+      notice_updated: Notice mise à jour
+  quizzes:
+    create:
+      notice_created: Notice crée
+    destroy:
+      notice_deleted: Notice supprimée
+    quiz:
+      games: Parties
+      new_game: Nouvelle partie
+      new_question: Nouvelle question
+      questions: Questions
+      quiz_game: Partie crée le %{at} par %{user} (%{players_count} joueurs)
+    show:
+      back_to_quizzes: Retour aux quizzes
+      quizzes: Quizzes
+    update:
+      notice_updated: Notice mise à jour
+  responses:
+    destroy:
+      notice_deleted: Notice supprimée
+  sessions:
+    new:
+      title: Connexion
+  signup: S'inscrire
