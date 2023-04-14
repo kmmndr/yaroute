@@ -57,13 +57,13 @@ class QuestionsController < DefaultController
   def move_up
     PositionHandler.new(scope: question.quiz.questions, element: question).move!(:up)
 
-    redirect_to quiz_path(question.quiz)
+    redirect_to edit_quiz_path(question.quiz)
   end
 
   def move_down
     PositionHandler.new(scope: question.quiz.questions, element: question).move!(:down)
 
-    redirect_to quiz_path(question.quiz)
+    redirect_to edit_quiz_path(question.quiz)
   end
 
   private

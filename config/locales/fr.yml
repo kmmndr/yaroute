@@ -91,7 +91,7 @@ fr:
     destroy:
       notice_deleted: Notice supprimée
     form:
-      back_to_quiz: Retour au quiz
+      back_to_edit_quiz: Retour à l'édition du quiz
       value: Bonne réponse ?
     update:
       notice_updated: Notice mise à jour
@@ -100,6 +100,8 @@ fr:
       notice_created: Notice crée
     destroy:
       notice_deleted: Notice supprimée
+    form:
+      back_to_quiz: Retour au quiz
     quiz:
       games: Parties
       new_game: Nouvelle partie
