@@ -36,5 +36,6 @@ Rails.application.routes.draw do
 
   mount Yaroute::API => '/'
 
-  root to: redirect('/quizzes')
+  # root to: redirect('/')
+  root 'sessions#home'
 end

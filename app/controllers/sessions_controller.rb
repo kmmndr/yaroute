@@ -1,6 +1,10 @@
 class SessionsController < ApplicationController
   skip_before_action :authenticate
 
+  def home
+    redirect_to authenticated? ? quizzes_path : new_player_path
+  end
+
   def new
     @account = Account.new
   end
