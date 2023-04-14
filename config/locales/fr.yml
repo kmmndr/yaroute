@@ -78,11 +78,11 @@ fr:
   logout: Déconnection %{name}
   new: Nouveau
   players:
+    destroy:
+      notice_deleted: Notice supprimée
     new:
       name: Entrez votre nom
       submit: Rejoindre la partie
-    destroy:
-      notice_deleted: Notice supprimée
     update:
       notice_updated: Notice mise à jour
   questions:
@@ -102,10 +102,11 @@ fr:
       notice_deleted: Notice supprimée
     form:
       back_to_quiz: Retour au quiz
+      new_question: Nouvelle question
+      questions: Questions
     quiz:
       games: Parties
       new_game: Nouvelle partie
-      new_question: Nouvelle question
       questions: Questions
       quiz_game: Partie crée le %{at} par %{user} (%{players_count} joueurs)
     show:

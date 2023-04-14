@@ -78,11 +78,11 @@ en:
   logout: Logout %{name}
   new: New
   players:
+    destroy:
+      notice_deleted: Notice deleted
     new:
       name: Enter your name
       submit: Join the game
-    destroy:
-      notice_deleted: Notice deleted
     update:
       notice_updated: Notice updated
   questions:
@@ -102,10 +102,11 @@ en:
       notice_deleted: Notice deleted
     form:
       back_to_quiz: Back to quiz
+      new_question: new question
+      questions: Questions
     quiz:
       games: Games
       new_game: New game
-      new_question: new question
       questions: Questions
       quiz_game: Game created %{at} by %{user} (%{players_count} players)
     show:

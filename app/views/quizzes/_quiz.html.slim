@@ -9,12 +9,6 @@ article
           - quiz.questions.each do |question|
             li
               = link_to question.title, edit_question_path(question)
-              |  (
-              = link_to 'up', move_up_question_path(question), data: { turbo: 'true', 'turbo-method': :put }
-              =< link_to 'down', move_down_question_path(question), data: { turbo: 'true', 'turbo-method': :put }
-              | )
-
-        li = link_to t('.new_question'), new_quiz_question_path(quiz)
 
     - if quiz.games.count > 0
       dt = t('.games')
