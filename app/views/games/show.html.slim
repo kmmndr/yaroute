@@ -8,7 +8,6 @@ article
       - @game.players.sort_by_highest_score.each do |player|
         li
           => player.name
-          | -
           strong =< t('.score', score: player.score)
   - else
     h2 = t('.players')
