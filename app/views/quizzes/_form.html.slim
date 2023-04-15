@@ -7,13 +7,19 @@
     .field
       label = t('.questions')
       ul
-        - if @quiz.questions.count > 0
-          - @quiz.questions.each do |question|
+        - if @quiz.all_questions.count > 0
+          - @quiz.all_questions.each do |question|
             li
-              = link_to question.title, edit_question_path(question)
+              = link_to edit_question_path(question) do
+                - if question.enabled?
+                  span = question.title
+                - else
+                  del = question.title
+
               |  (
               = link_to 'up', move_up_question_path(question), data: { turbo: 'true', 'turbo-method': :put }
               =< link_to 'down', move_down_question_path(question), data: { turbo: 'true', 'turbo-method': :put }
+              =< link_to 'toggle', toggle_question_path(question), data: { turbo: 'true', 'turbo-method': :put }
               | )
 
         - if @quiz.persisted?

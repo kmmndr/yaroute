@@ -66,6 +66,13 @@ class QuestionsController < DefaultController
     redirect_to edit_quiz_path(question.quiz)
   end
 
+  def toggle
+    question.disabled = !question.disabled
+    question.save
+
+    redirect_to edit_quiz_path(question.quiz)
+  end
+
   private
 
   def question

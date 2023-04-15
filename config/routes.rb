@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     member do
       put 'move_up'
       put 'move_down'
+      put 'toggle'
     end
   end
   resources :quizzes do

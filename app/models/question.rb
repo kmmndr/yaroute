@@ -10,4 +10,16 @@ class Question < ApplicationRecord
   def self.ordered
     order(:position, :id)
   end
+
+  def self.enabled
+    where.not(disabled: true)
+  end
+
+  def disabled?
+    disabled == true
+  end
+
+  def enabled?
+    !disabled?
+  end
 end
