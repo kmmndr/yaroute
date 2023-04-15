@@ -102,6 +102,7 @@ fr:
       notice_deleted: Notice supprimée
     form:
       back_to_quiz: Retour au quiz
+      back_to_quizzes: Retour aux quizzes
       new_question: Nouvelle question
       questions: Questions
     quiz:
