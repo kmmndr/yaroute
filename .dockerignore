@@ -1,2 +1,10 @@
+.git
 *.env
 *.sql
+*.tgz
+*.tar.gz
+
+log/*.log
+node_modules
+storage
+tmp
