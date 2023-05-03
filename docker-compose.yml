@@ -39,7 +39,7 @@ services:
       RAILS_ENV: ${PROJECT_ENVIRONMENT:-production}
       NODE_ENV: ${PROJECT_ENVIRONMENT:-production}
       RAILS_SERVE_STATIC_FILES: ${RAILS_SERVE_STATIC_FILES:-0}
-      RAILS_LOG_TO_STDOUT: ${RAILS_LOG_TO_STDOUT:-}
+      RAILS_LOG_TO_STDOUT: ${RAILS_LOG_TO_STDOUT:-1}
       SECRET_KEY_BASE: ${SECRET_KEY_BASE:-weak_secret_key}
       #
       DATABASE_URL: postgresql://${APP_DATABASE_USER:-yaroute}:${APP_DATABASE_PASSWORD:-yaroute}@postgres:5432/${APP_DATABASE_NAME:-yaroute}
