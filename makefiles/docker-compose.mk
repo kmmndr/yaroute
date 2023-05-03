@@ -30,7 +30,7 @@ docker-compose-stop: environment ##- Stop containers
 .PHONY: docker-compose-logs
 docker-compose-logs: environment ##- Print containers logs
 	$(info *** Printing containers logs ***)
-	$(load_env); ${COMPOSE} ${compose_files} logs -f
+	$(load_env); ${COMPOSE} ${compose_files} logs -n 1000 -f
 
 .PHONY: docker-compose-ps
 docker-compose-ps: environment ##- Print containers statuses
